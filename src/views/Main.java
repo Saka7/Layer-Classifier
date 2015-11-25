@@ -1,25 +1,38 @@
 package views;
-	
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class Main extends Application {
+
+	private Stage primaryStage = new Stage();;
+	private VBox rootPane;
+
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			// Load root layout from fxml file.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("/structures/neural-nets-main.fxml"));
+			rootPane = (VBox) loader.load();
+
+			// Show the scene containing the root layout.
+			Scene scene = new Scene(rootPane);
+			scene.getStylesheets().add(getClass().getResource("/styles/main.css").toExternalForm());
+
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
+			primaryStage.setTitle("Neural Nets Predicator");
 			primaryStage.show();
-		} catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
