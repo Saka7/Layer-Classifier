@@ -12,10 +12,8 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -28,7 +26,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import utils.CSVDispatcher;
@@ -352,21 +353,34 @@ public class MainController {
 
 	// Help Menu
 	public void about() {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Neural Net Predicator v1.0");
-		alert.setHeaderText("Додаток реалізує нейромережі\nBackPropagation та Extended Delta Bar Delta");
-		alert.setContentText(
-				"Видобуток знань на основі набору\nданих для визначення типу\nпласта (коллектор, покришка)\n\n"
-						+ "Розробник: ст. групи ПІ-13-2\nСакайлюк Ігор Миколайович");
-		alert.showAndWait();
+		final Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.initOwner(mainApp.getStage());
+		VBox dialogVbox = new VBox(20);
+		TextArea text = new TextArea("Додаток реалізує нейромережі\n" + "BackPropagation\nта Extended Delta Bar Delta\n"
+				+ "Видобуток знань на основі набору\n" + "даних для визначення типу\n"
+				+ "nпласта (коллектор, покришка)\n\n" + "Розробник: ст. групи ПІ-13-2\nСакайлюк Ігор Миколайович");
+		text.setEditable(false);
+		dialogVbox.getChildren().add(text);
+		Scene dialogScene = new Scene(dialogVbox, 300, 200);
+		dialog.setTitle("Neural Net Predicator v1.0");
+		dialog.setScene(dialogScene);
+		dialog.show();
 	}
 
 	public void hotkeys() {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Швидкі клавіші");
-		alert.setHeaderText("Швидкі клавіші");
-		alert.setContentText("Додати новий рядок в таблицю -> права кнопка миші\n Видалити рядок із таблиці -> backspace");
-		alert.showAndWait();
+		final Stage dialog = new Stage();
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.initOwner(mainApp.getStage());
+		VBox dialogVbox = new VBox(20);
+		TextArea text = new TextArea("Додати новий рядок в таблицю \n\t-> [права кнопка миші]\n\n"
+				+ "Видалити рядок із таблиці \n\t-> [backspace]");
+		text.setEditable(false);
+		dialogVbox.getChildren().add(text);
+		Scene dialogScene = new Scene(dialogVbox, 300, 150);
+		dialog.setTitle("Швидкі клавіші");
+		dialog.setScene(dialogScene);
+		dialog.show();
 	}
 
 }
