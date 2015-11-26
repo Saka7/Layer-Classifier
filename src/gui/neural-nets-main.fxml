@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="674.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+  <children>
+    <MenuBar prefHeight="0.0" prefWidth="671.0" VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Файл">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Нові тренувальні дані" />
+            <MenuItem mnemonicParsing="false" text="Завантажити тренувальні дані" />
+            <MenuItem mnemonicParsing="false" text="Зберегти тренувальні дані" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Нові дані" />
+                  <MenuItem mnemonicParsing="false" text="Завантажити Дані" />
+                  <MenuItem mnemonicParsing="false" text="Зберегти дані" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Нові Ваги" />
+                  <MenuItem mnemonicParsing="false" text="Завантажити ваги" />
+            <MenuItem mnemonicParsing="false" text="Зберегти ваги" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Вихід" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Допомога">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Про Додаток..." />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="506.0" prefWidth="671.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TableView layoutX="15.0" layoutY="252.0" prefHeight="190.0" prefWidth="643.0">
+              <columns>
+                <TableColumn prefWidth="97.0" text="№ Об'єкта" />
+                <TableColumn prefWidth="119.0" text="Пористість, %" />
+                  <TableColumn prefWidth="122.0" text="Глинистість, %" />
+                  <TableColumn prefWidth="150.0" text="Карбонатність, %" />
+                  <TableColumn prefWidth="153.0" text="Амплітуда ВП, мв" />
+              </columns>
+            </TableView>
+            <Pane layoutX="14.0" layoutY="448.0" prefHeight="29.0" prefWidth="643.0">
+               <children>
+                  <Button fx:id="generateButton" layoutX="189.0" layoutY="1.0" mnemonicParsing="false" onAction="#generate" prefHeight="25.0" prefWidth="112.0" text="Згенерувати" />
+                  <Button fx:id="solveButton" layoutX="312.0" layoutY="1.0" mnemonicParsing="false" onAction="#solve" prefHeight="25.0" prefWidth="112.0" text="Обчислити" />
+               </children>
+            </Pane>
+            <TextArea fx:id="resultText" editable="false" layoutX="14.0" layoutY="489.0" prefHeight="134.0" prefWidth="643.0" />
+            <Label layoutX="229.0" layoutY="626.0" text="Created By Ihor Sakaylyuk. 2015" />
+            <TableView layoutX="15.0" layoutY="44.0" prefHeight="181.0" prefWidth="643.0">
+               <columns>
+                  <TableColumn prefWidth="41.0" text="№ Об'єкта" />
+                  <TableColumn prefWidth="118.0" text="Пористість, %" />
+                  <TableColumn prefWidth="122.0" text="Глинистість, %" />
+                  <TableColumn prefWidth="138.0" text="Карбонатність, %" />
+                  <TableColumn prefWidth="144.0" text="Амплітуда ВП, мв" />
+                  <TableColumn maxWidth="200.0" prefWidth="78.0" text="Тип" />
+               </columns>
+            </TableView>
+            <Label layoutX="15.0" layoutY="231.0" text="Реальні Дані" />
+            <Label layoutX="16.0" layoutY="17.0" text="Навчальні дані" />
+            <Pane layoutX="133.0" layoutY="10.0" prefHeight="29.0" prefWidth="528.0">
+               <children>
+                  <ComboBox layoutX="113.0" layoutY="2.0" prefHeight="25.0" prefWidth="283.0" />
+                  <Label layoutX="8.0" layoutY="7.0" text="Нейромережа" />
+                  <Button fx:id="trainButton" layoutX="409.0" layoutY="2.0" mnemonicParsing="false" onAction="#train" prefHeight="25.0" prefWidth="112.0" text="Тренувати" />
+               </children>
+            </Pane>
+            <Label layoutX="16.0" layoutY="473.0" text="Результати" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
