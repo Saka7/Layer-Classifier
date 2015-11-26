@@ -23,8 +23,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
+import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.NumberStringConverter;
 import utils.CSVDispatcher;
 
 public class MainController {
@@ -85,7 +85,7 @@ public class MainController {
 	private void initialize() {
 		// Initialize table's data
 		initTables();
-		
+
 		// Set table editable
 		trainingLayersTable.setEditable(true);
 		realLayersTable.setEditable(true);
@@ -93,33 +93,102 @@ public class MainController {
 		realLayersTable.setTableMenuButtonVisible(true);
 
 		// Training Data table
+		// Number cell
 		trainingNumbers.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("number"));
 		trainingNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		trainingNumbers.setOnEditCommit(
-			    (CellEditEvent<TrainingLayerFeatures, Integer> t) -> {
-			        ((TrainingLayerFeatures) t.getTableView().getItems().get(
-			            t.getTablePosition().getRow())
-			            ).setNumber(t.getNewValue());
-			});
-		
+		trainingNumbers.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Integer> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setNumber(t.getNewValue());
+		});
+
+		// Amount of Carbonate cell
 		trainingAmountOfCarbonate
 				.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfCarbonate"));
+		trainingAmountOfCarbonate.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		trainingAmountOfCarbonate.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setAmountOfCarbonate(t.getNewValue());
+		});
+
+		// Amount of Clay cell
 		trainingAmountOfClay
 				.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfClay"));
-		trainingSponginess.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("sponginess"));
-		trainingVPAmplitude.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("vPAmplitude"));
-		trainingType.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("type"));
+		trainingAmountOfClay.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		trainingAmountOfClay.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setAmountOfClay(t.getNewValue());
+		});
 
+		// Sponginess cell
+		trainingSponginess.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("sponginess"));
+		trainingSponginess.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		trainingSponginess.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setSponginess(t.getNewValue());
+		});
+
+		// VPAmplitude cell
+		trainingVPAmplitude.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("vPAmplitude"));
+		trainingVPAmplitude.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		trainingVPAmplitude.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setVPAmplitude(t.getNewValue());
+		});
+
+		// Type cell
+		trainingType.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("type"));
+		trainingType.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		trainingType.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Integer> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setType(t.getNewValue());
+		});
+
+		// Adding items to table
 		trainingLayersTable.setItems(trainingLayersFeatures);
 
 		// Real Data table
+		// Number cell
 		realNumbers.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Integer>("number"));
+		realNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		realNumbers.setOnEditCommit((CellEditEvent<RealLayerFeatures, Integer> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setNumber(t.getNewValue());
+		});
+
+		// Amount Of Carbonate cell
 		realAmountOfCarbonate
 				.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfCarbonate"));
-		realAmountOfClay.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfClay"));
-		realSponginess.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("sponginess"));
-		realVPAmplitude.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("vPAmplitude"));
+		realAmountOfCarbonate.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		realAmountOfCarbonate.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setAmountOfCarbonate(t.getNewValue());
+		});
 
+		// Amount of Clay cell
+		realAmountOfClay.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfClay"));
+		realAmountOfClay.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		realAmountOfClay.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setAmountOfClay(t.getNewValue());
+		});
+
+		// Sponginess cell
+		realSponginess.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("sponginess"));
+		realSponginess.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		realSponginess.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setSponginess(t.getNewValue());
+		});
+
+		// VPAmplitude cell
+		realVPAmplitude.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("vPAmplitude"));
+		realVPAmplitude.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		realVPAmplitude.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+					.setVPAmplitude(t.getNewValue());
+		});
+
+		// Adding items to table
 		realLayersTable.setItems(realLayersFeatures);
 
 		// Set values to combobox
@@ -136,7 +205,7 @@ public class MainController {
 					.add(new RealLayerFeatures(i, Math.random(), Math.random(), Math.random(), Math.random()));
 		}
 	}
-	
+
 	public void setMain(Main mainApp) {
 		this.mainApp = mainApp;
 	}
@@ -173,11 +242,11 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nLoading training data from : " + file.getAbsolutePath() + "\n");
-		
+
 		CSVDispatcher.filename = file.getAbsolutePath();
 		trainingLayersFeatures.clear();
 		CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
-		
+
 	}
 
 	public void saveTrainingData() {
@@ -189,7 +258,7 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nSaving training data to : " + file.getAbsolutePath() + "\n");
-		
+
 		CSVDispatcher.filename = file.getAbsolutePath();
 		CSVDispatcher.list2CSVFile(trainingLayersFeatures);
 	}
@@ -222,7 +291,7 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nSaving data to : " + file.getAbsolutePath() + "\n");
-		
+
 		CSVDispatcher.filename = file.getAbsolutePath();
 		CSVDispatcher.list2CSVFile(realLayersFeatures);
 	}
@@ -260,7 +329,7 @@ public class MainController {
 		alert.setHeaderText("Додаток реалізує нейромережі\nBackPropagation та Extended Delta Bar Delta");
 		alert.setContentText(
 				"Видобуток знань на основі набору\nданих для визначення типу\nпласта (коллектор, покришка)\n\n"
-				+ "Розробник: ст. групи ПІ-13-2\nСакайлюк Ігор Миколайович");
+						+ "Розробник: ст. групи ПІ-13-2\nСакайлюк Ігор Миколайович");
 		alert.showAndWait();
 	}
 
