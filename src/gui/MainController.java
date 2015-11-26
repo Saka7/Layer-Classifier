@@ -1,8 +1,11 @@
 package gui;
 
 import beans.TrainingLayerFeatures;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,6 +20,8 @@ public class MainController {
 	Button solveButton;
 	@FXML
 	TextArea resultText;
+	@FXML
+	ComboBox<String> neuralNetworkType;
 
 	@FXML
 	private TableView<TrainingLayerFeatures> layersTable;
@@ -49,6 +54,8 @@ public class MainController {
 
 	@FXML
 	private void initialize() {
+		neuralNetworkType.getItems().addAll("Back Propagation", "Extended Delta Bar Delta");
+		neuralNetworkType.setValue("Back Propagation");
 		/*
 		 * numbers.setCellValueFactory(cellData ->
 		 * cellData.getValue().getNumberProperty().asObject());
@@ -69,7 +76,7 @@ public class MainController {
 	}
 
 	public void train() {
-		resultText.appendText("Training\n");
+		resultText.appendText(neuralNetworkType.getValue() + " : Training\n");
 	}
 
 	public void generate() {

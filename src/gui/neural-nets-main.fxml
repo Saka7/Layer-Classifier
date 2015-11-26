@@ -69,7 +69,7 @@
             <Label layoutX="16.0" layoutY="17.0" text="Навчальні дані" />
             <Pane layoutX="133.0" layoutY="10.0" prefHeight="29.0" prefWidth="528.0">
                <children>
-                  <ComboBox layoutX="113.0" layoutY="2.0" prefHeight="25.0" prefWidth="283.0" />
+                  <ComboBox fx:id="neuralNetworkType" layoutX="113.0" layoutY="2.0" prefHeight="25.0" prefWidth="283.0" />
                   <Label layoutX="8.0" layoutY="7.0" text="Нейромережа" />
                   <Button fx:id="trainButton" layoutX="409.0" layoutY="2.0" mnemonicParsing="false" onAction="#train" prefHeight="25.0" prefWidth="112.0" text="Тренувати" />
                </children>
