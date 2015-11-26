@@ -17,10 +17,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import utils.CSVDispatcher;
 
 public class MainController {
@@ -52,7 +56,7 @@ public class MainController {
 	private TableColumn<TrainingLayerFeatures, Double> trainingVPAmplitude;
 
 	private ObservableList<TrainingLayerFeatures> trainingLayersFeatures = FXCollections.observableArrayList();
-	
+
 	private List<TrainingLayerFeaturesData> trainingLayersFeaturesData = new ArrayList<>();
 
 	@FXML
@@ -67,11 +71,11 @@ public class MainController {
 	private TableColumn<RealLayerFeatures, Double> realAmountOfCarbonate;
 	@FXML
 	private TableColumn<RealLayerFeatures, Double> realVPAmplitude;
-	
+
 	private ObservableList<RealLayerFeatures> realLayersFeatures = FXCollections.observableArrayList();
 
 	private List<RealLayerFeaturesData> realLayersFeaturesData = new ArrayList<>();
-	
+
 	private Main mainApp;
 
 	public MainController() {
@@ -81,6 +85,8 @@ public class MainController {
 	private void initialize() {
 		// Initialize table's data
 		initTables();
+		
+		// Set table editable
 		trainingLayersTable.setEditable(true);
 		realLayersTable.setEditable(true);
 		trainingLayersTable.setTableMenuButtonVisible(true);
@@ -88,7 +94,14 @@ public class MainController {
 
 		// Training Data table
 		trainingNumbers.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("number"));
-
+		trainingNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		trainingNumbers.setOnEditCommit(
+			    (CellEditEvent<TrainingLayerFeatures, Integer> t) -> {
+			        ((TrainingLayerFeatures) t.getTableView().getItems().get(
+			            t.getTablePosition().getRow())
+			            ).setNumber(t.getNewValue());
+			});
+		
 		trainingAmountOfCarbonate
 				.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfCarbonate"));
 		trainingAmountOfClay
@@ -138,7 +151,7 @@ public class MainController {
 	}
 
 	public void solve() {
-		resultText.appendText("Solving");
+		resultText.appendText("Solving\n");
 	}
 
 	// File Menu Bar
@@ -195,6 +208,9 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nLoading data from : " + file.getAbsolutePath() + "\n");
+		CSVDispatcher.filename = file.getAbsolutePath();
+		realLayersFeatures.clear();
+		CSVDispatcher.CSVFile2RList(realLayersFeatures);
 	}
 
 	public void saveData() {
@@ -243,7 +259,8 @@ public class MainController {
 		alert.setTitle("Neural Net Predicator v1.0");
 		alert.setHeaderText("Додаток реалізує нейромережі\nBackPropagation та Extended Delta Bar Delta");
 		alert.setContentText(
-				"Видобуток знань на основі набору\nданих для визначення типу\nпласта (коллектор, покришка)");
+				"Видобуток знань на основі набору\nданих для визначення типу\nпласта (коллектор, покришка)\n\n"
+				+ "Розробник: ст. групи ПІ-13-2\nСакайлюк Ігор Миколайович");
 		alert.showAndWait();
 	}
 

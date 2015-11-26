@@ -49,8 +49,8 @@
             </TableView>
             <Pane layoutX="14.0" layoutY="448.0" prefHeight="29.0" prefWidth="643.0">
                <children>
-                  <Button fx:id="generateButton" layoutX="198.0" layoutY="1.0" mnemonicParsing="false" onAction="#generate" prefHeight="25.0" prefWidth="112.0" text="Згенерувати" />
-                  <Button fx:id="solveButton" layoutX="322.0" layoutY="1.0" mnemonicParsing="false" onAction="#solve" prefHeight="25.0" prefWidth="112.0" text="Обчислити" />
+                  <Button fx:id="generateButton" layoutX="205.0" layoutY="1.0" mnemonicParsing="false" onAction="#generate" prefHeight="25.0" prefWidth="112.0" text="Згенерувати" />
+                  <Button fx:id="solveButton" layoutX="329.0" layoutY="1.0" mnemonicParsing="false" onAction="#solve" prefHeight="25.0" prefWidth="112.0" text="Обчислити" />
                </children>
             </Pane>
             <TextArea fx:id="resultText" editable="false" layoutX="14.0" layoutY="489.0" prefHeight="134.0" prefWidth="643.0" />
