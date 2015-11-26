@@ -1,6 +1,5 @@
 package beans;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class TrainingLayerFeatures extends RealLayerFeatures {
@@ -13,11 +12,7 @@ public class TrainingLayerFeatures extends RealLayerFeatures {
 
 	public TrainingLayerFeatures(int number, double sponginess, double amountOfClay, double amountOfCarbonate,
 			double vPAmplitude, int type) {
-		this.number = new SimpleIntegerProperty(number);
-		this.sponginess = new SimpleDoubleProperty(sponginess);
-		this.amountOfCarbonate = new SimpleDoubleProperty(amountOfCarbonate);
-		this.amountOfClay = new SimpleDoubleProperty(amountOfClay);
-		this.vPAmplitude = new SimpleDoubleProperty(vPAmplitude);
+		super(number, sponginess, amountOfCarbonate, amountOfClay, vPAmplitude);
 		this.type = new SimpleIntegerProperty(type);
 	}
 
@@ -32,5 +27,11 @@ public class TrainingLayerFeatures extends RealLayerFeatures {
 
 	public SimpleIntegerProperty getTypeProperty() {
 		return type;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%d,%f,%f,%f,%f,%d\n", super.getNumber(), super.getSponginess(), super.getAmountOfClay(),
+				super.getAmountOfCarbonate(), super.getVPAmplitude(), getType());
 	}
 }

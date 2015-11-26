@@ -89,4 +89,9 @@ public class RealLayerFeatures {
 		return amountOfClay;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("%d,%f,%f,%f,%f\n", getNumber(), getSponginess(), getAmountOfClay(),
+				getAmountOfCarbonate(), getVPAmplitude());
+	}
 }

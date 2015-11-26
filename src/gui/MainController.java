@@ -1,9 +1,13 @@
 package gui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import beans.RealLayerFeatures;
+import beans.RealLayerFeaturesData;
 import beans.TrainingLayerFeatures;
+import beans.TrainingLayerFeaturesData;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import utils.CSVDispatcher;
 
 public class MainController {
 
@@ -47,6 +52,8 @@ public class MainController {
 	private TableColumn<TrainingLayerFeatures, Double> trainingVPAmplitude;
 
 	private ObservableList<TrainingLayerFeatures> trainingLayersFeatures = FXCollections.observableArrayList();
+	
+	private List<TrainingLayerFeaturesData> trainingLayersFeaturesData = new ArrayList<>();
 
 	@FXML
 	private TableView<RealLayerFeatures> realLayersTable;
@@ -60,8 +67,11 @@ public class MainController {
 	private TableColumn<RealLayerFeatures, Double> realAmountOfCarbonate;
 	@FXML
 	private TableColumn<RealLayerFeatures, Double> realVPAmplitude;
+	
 	private ObservableList<RealLayerFeatures> realLayersFeatures = FXCollections.observableArrayList();
 
+	private List<RealLayerFeaturesData> realLayersFeaturesData = new ArrayList<>();
+	
 	private Main mainApp;
 
 	public MainController() {
@@ -73,9 +83,12 @@ public class MainController {
 		initTables();
 		trainingLayersTable.setEditable(true);
 		realLayersTable.setEditable(true);
+		trainingLayersTable.setTableMenuButtonVisible(true);
+		realLayersTable.setTableMenuButtonVisible(true);
 
 		// Training Data table
 		trainingNumbers.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("number"));
+
 		trainingAmountOfCarbonate
 				.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfCarbonate"));
 		trainingAmountOfClay
@@ -110,7 +123,7 @@ public class MainController {
 					.add(new RealLayerFeatures(i, Math.random(), Math.random(), Math.random(), Math.random()));
 		}
 	}
-
+	
 	public void setMain(Main mainApp) {
 		this.mainApp = mainApp;
 	}
@@ -147,6 +160,11 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nLoading training data from : " + file.getAbsolutePath() + "\n");
+		
+		CSVDispatcher.filename = file.getAbsolutePath();
+		trainingLayersFeatures.clear();
+		CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
+		
 	}
 
 	public void saveTrainingData() {
@@ -158,6 +176,9 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nSaving training data to : " + file.getAbsolutePath() + "\n");
+		
+		CSVDispatcher.filename = file.getAbsolutePath();
+		CSVDispatcher.list2CSVFile(trainingLayersFeatures);
 	}
 
 	public void newData() {
@@ -185,6 +206,9 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nSaving data to : " + file.getAbsolutePath() + "\n");
+		
+		CSVDispatcher.filename = file.getAbsolutePath();
+		CSVDispatcher.list2CSVFile(realLayersFeatures);
 	}
 
 	public void newWeights() {
