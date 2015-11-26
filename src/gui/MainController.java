@@ -8,6 +8,7 @@ import beans.RealLayerFeatures;
 import beans.RealLayerFeaturesData;
 import beans.TrainingLayerFeatures;
 import beans.TrainingLayerFeaturesData;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
@@ -92,6 +95,19 @@ public class MainController {
 		trainingLayersTable.setTableMenuButtonVisible(true);
 		realLayersTable.setTableMenuButtonVisible(true);
 
+		// Adding new row when right mouse button is clicked
+		trainingLayersTable.setOnMouseClicked((MouseEvent event) -> {
+			if (event.getButton() == MouseButton.SECONDARY)
+				trainingLayersFeatures.add(new TrainingLayerFeatures());
+		});
+
+		realLayersTable.setOnMouseClicked((MouseEvent event) -> {
+			if (event.getButton() == MouseButton.SECONDARY)
+				realLayersFeatures.add(new RealLayerFeatures());
+		});
+		
+		//trainingLayersTable.setOnKeyPressed();
+
 		// Training Data table
 		// Number cell
 		trainingNumbers.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("number"));
@@ -151,7 +167,7 @@ public class MainController {
 		realNumbers.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Integer>("number"));
 		realNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		realNumbers.setOnEditCommit((CellEditEvent<RealLayerFeatures, Integer> t) -> {
-			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 					.setNumber(t.getNewValue());
 		});
 
@@ -160,7 +176,7 @@ public class MainController {
 				.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfCarbonate"));
 		realAmountOfCarbonate.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 		realAmountOfCarbonate.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
-			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 					.setAmountOfCarbonate(t.getNewValue());
 		});
 
@@ -168,7 +184,7 @@ public class MainController {
 		realAmountOfClay.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfClay"));
 		realAmountOfClay.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 		realAmountOfClay.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
-			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 					.setAmountOfClay(t.getNewValue());
 		});
 
@@ -176,7 +192,7 @@ public class MainController {
 		realSponginess.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("sponginess"));
 		realSponginess.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 		realSponginess.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
-			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 					.setSponginess(t.getNewValue());
 		});
 
@@ -184,7 +200,7 @@ public class MainController {
 		realVPAmplitude.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("vPAmplitude"));
 		realVPAmplitude.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 		realVPAmplitude.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
-			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
 					.setVPAmplitude(t.getNewValue());
 		});
 
