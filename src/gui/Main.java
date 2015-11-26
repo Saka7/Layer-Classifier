@@ -10,7 +10,11 @@ public class Main extends Application {
 
 	private Stage primaryStage = new Stage();
 	private VBox rootPane;
-		
+	
+	public Stage getStage() {
+		return primaryStage;
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {

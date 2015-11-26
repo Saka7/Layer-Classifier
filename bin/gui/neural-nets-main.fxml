@@ -14,24 +14,24 @@
       <menus>
         <Menu mnemonicParsing="false" text="Файл">
           <items>
-            <MenuItem mnemonicParsing="false" text="Нові тренувальні дані" />
-            <MenuItem mnemonicParsing="false" text="Завантажити тренувальні дані" />
-            <MenuItem mnemonicParsing="false" text="Зберегти тренувальні дані" />
+            <MenuItem mnemonicParsing="false" onAction="#newTrainingData" text="Нові тренувальні дані" />
+            <MenuItem mnemonicParsing="false" onAction="#loadTrainingData" text="Завантажити тренувальні дані" />
+            <MenuItem mnemonicParsing="false" onAction="#saveTrainingData" text="Зберегти тренувальні дані" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Нові дані" />
-                  <MenuItem mnemonicParsing="false" text="Завантажити Дані" />
-                  <MenuItem mnemonicParsing="false" text="Зберегти дані" />
+                  <MenuItem mnemonicParsing="false" onAction="#newData" text="Нові дані" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadData" text="Завантажити Дані" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveData" text="Зберегти дані" />
             <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Нові Ваги" />
-                  <MenuItem mnemonicParsing="false" text="Завантажити ваги" />
-            <MenuItem mnemonicParsing="false" text="Зберегти ваги" />
+                  <MenuItem mnemonicParsing="false" onAction="#newWeights" text="Нові Ваги" />
+                  <MenuItem mnemonicParsing="false" onAction="#loadWeights" text="Завантажити ваги" />
+            <MenuItem mnemonicParsing="false" onAction="#saveWeights" text="Зберегти ваги" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Вихід" />
+            <MenuItem mnemonicParsing="false" onAction="#exit" text="Вихід" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Допомога">
           <items>
-            <MenuItem mnemonicParsing="false" text="Про Додаток..." />
+            <MenuItem mnemonicParsing="false" onAction="#about" text="Про Додаток..." />
           </items>
         </Menu>
       </menus>
@@ -49,8 +49,8 @@
             </TableView>
             <Pane layoutX="14.0" layoutY="448.0" prefHeight="29.0" prefWidth="643.0">
                <children>
-                  <Button fx:id="generateButton" layoutX="189.0" layoutY="1.0" mnemonicParsing="false" onAction="#generate" prefHeight="25.0" prefWidth="112.0" text="Згенерувати" />
-                  <Button fx:id="solveButton" layoutX="312.0" layoutY="1.0" mnemonicParsing="false" onAction="#solve" prefHeight="25.0" prefWidth="112.0" text="Обчислити" />
+                  <Button fx:id="generateButton" layoutX="198.0" layoutY="1.0" mnemonicParsing="false" onAction="#generate" prefHeight="25.0" prefWidth="112.0" text="Згенерувати" />
+                  <Button fx:id="solveButton" layoutX="322.0" layoutY="1.0" mnemonicParsing="false" onAction="#solve" prefHeight="25.0" prefWidth="112.0" text="Обчислити" />
                </children>
             </Pane>
             <TextArea fx:id="resultText" editable="false" layoutX="14.0" layoutY="489.0" prefHeight="134.0" prefWidth="643.0" />
@@ -65,8 +65,16 @@
                   <TableColumn fx:id="trainingType" maxWidth="200.0" prefWidth="78.0" text="Тип" />
                </columns>
             </TableView>
-            <Label layoutX="15.0" layoutY="231.0" text="Реальні Дані" />
-            <Label layoutX="16.0" layoutY="17.0" text="Навчальні дані" />
+            <Label layoutX="15.0" layoutY="231.0" text="Реальні Дані" textFill="#837f7f">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="16.0" layoutY="17.0" text="Навчальні дані" textFill="#837f7f">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
             <Pane layoutX="133.0" layoutY="10.0" prefHeight="29.0" prefWidth="528.0">
                <children>
                   <ComboBox fx:id="neuralNetworkType" layoutX="113.0" layoutY="2.0" prefHeight="25.0" prefWidth="283.0" />
@@ -74,7 +82,11 @@
                   <Button fx:id="trainButton" layoutX="409.0" layoutY="2.0" mnemonicParsing="false" onAction="#train" prefHeight="25.0" prefWidth="112.0" text="Тренувати" />
                </children>
             </Pane>
-            <Label layoutX="16.0" layoutY="473.0" text="Результати" />
+            <Label layoutX="16.0" layoutY="469.0" text="Результати" textFill="#837f7f">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
     </AnchorPane>
   </children>
