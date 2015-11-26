@@ -8,10 +8,11 @@ import beans.RealLayerFeatures;
 import beans.RealLayerFeaturesData;
 import beans.TrainingLayerFeatures;
 import beans.TrainingLayerFeaturesData;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -23,6 +24,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -105,8 +108,17 @@ public class MainController {
 			if (event.getButton() == MouseButton.SECONDARY)
 				realLayersFeatures.add(new RealLayerFeatures());
 		});
-		
-		//trainingLayersTable.setOnKeyPressed();
+
+		// Deleting selected row from tables
+		trainingLayersTable.setOnKeyPressed((Event event) -> {
+			if (((KeyEvent) event).getCode() == KeyCode.BACK_SPACE)
+				trainingLayersFeatures.remove(trainingLayersTable.getSelectionModel().getSelectedIndex());
+		});
+
+		realLayersTable.setOnKeyPressed((Event event) -> {
+			if (((KeyEvent) event).getCode() == KeyCode.BACK_SPACE)
+				realLayersFeatures.remove(realLayersTable.getSelectionModel().getSelectedIndex());
+		});
 
 		// Training Data table
 		// Number cell
@@ -346,6 +358,14 @@ public class MainController {
 		alert.setContentText(
 				"Видобуток знань на основі набору\nданих для визначення типу\nпласта (коллектор, покришка)\n\n"
 						+ "Розробник: ст. групи ПІ-13-2\nСакайлюк Ігор Миколайович");
+		alert.showAndWait();
+	}
+
+	public void hotkeys() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Швидкі клавіші");
+		alert.setHeaderText("Швидкі клавіші");
+		alert.setContentText("Додати новий рядок в таблицю -> права кнопка миші\n Видалити рядок із таблиці -> backspace");
 		alert.showAndWait();
 	}
 

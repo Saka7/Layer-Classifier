@@ -31,6 +31,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Допомога">
           <items>
+                  <MenuItem mnemonicParsing="false" onAction="#hotkeys" text="Швидкі клавіші" />
             <MenuItem mnemonicParsing="false" onAction="#about" text="Про Додаток..." />
           </items>
         </Menu>
