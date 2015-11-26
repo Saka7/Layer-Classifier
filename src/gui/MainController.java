@@ -253,10 +253,6 @@ public class MainController {
 	}
 
 	// File Menu Bar
-	public void exit() {
-		Platform.exit();
-	}
-
 	public void newTrainingData() {
 		trainingLayersTable.getItems().clear();
 		resultText.appendText("\nClearing training data...\n");
@@ -349,6 +345,14 @@ public class MainController {
 			return;
 
 		resultText.appendText("\nSaving weights to: " + file.getAbsolutePath() + "\n");
+	}
+
+	public void exit() {
+		Platform.exit();
+	}
+
+	public void clearResults() {
+		resultText.clear();
 	}
 
 	// Help Menu

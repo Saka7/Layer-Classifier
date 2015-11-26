@@ -26,6 +26,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#loadWeights" text="Завантажити ваги" />
             <MenuItem mnemonicParsing="false" onAction="#saveWeights" text="Зберегти ваги" />
                   <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#clearResults" text="Очистити результати" />
             <MenuItem mnemonicParsing="false" onAction="#exit" text="Вихід" />
           </items>
         </Menu>
