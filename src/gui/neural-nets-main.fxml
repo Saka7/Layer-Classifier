@@ -38,13 +38,13 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="506.0" prefWidth="671.0" VBox.vgrow="ALWAYS">
          <children>
-            <TableView layoutX="15.0" layoutY="252.0" prefHeight="190.0" prefWidth="643.0">
+            <TableView fx:id="realLayersTable" layoutX="15.0" layoutY="252.0" prefHeight="190.0" prefWidth="643.0">
               <columns>
-                <TableColumn prefWidth="97.0" text="№ Об'єкта" />
-                <TableColumn prefWidth="119.0" text="Пористість, %" />
-                  <TableColumn prefWidth="122.0" text="Глинистість, %" />
-                  <TableColumn prefWidth="150.0" text="Карбонатність, %" />
-                  <TableColumn prefWidth="153.0" text="Амплітуда ВП, мв" />
+                <TableColumn fx:id="realNumbers" prefWidth="97.0" text="№ Об'єкта" />
+                <TableColumn fx:id="realSponginess" prefWidth="119.0" text="Пористість, %" />
+                  <TableColumn fx:id="realAmountOfClay" prefWidth="122.0" text="Глинистість, %" />
+                  <TableColumn fx:id="realAmountOfCarbonate" prefWidth="150.0" text="Карбонатність, %" />
+                  <TableColumn fx:id="realVPAmplitude" prefWidth="153.0" text="Амплітуда ВП, мв" />
               </columns>
             </TableView>
             <Pane layoutX="14.0" layoutY="448.0" prefHeight="29.0" prefWidth="643.0">
@@ -55,14 +55,14 @@
             </Pane>
             <TextArea fx:id="resultText" editable="false" layoutX="14.0" layoutY="489.0" prefHeight="134.0" prefWidth="643.0" />
             <Label layoutX="229.0" layoutY="626.0" text="Created By Ihor Sakaylyuk. 2015" />
-            <TableView layoutX="15.0" layoutY="44.0" prefHeight="181.0" prefWidth="643.0">
+            <TableView fx:id="trainingLayersTable" layoutX="15.0" layoutY="44.0" prefHeight="181.0" prefWidth="643.0">
                <columns>
-                  <TableColumn prefWidth="41.0" text="№ Об'єкта" />
-                  <TableColumn prefWidth="118.0" text="Пористість, %" />
-                  <TableColumn prefWidth="122.0" text="Глинистість, %" />
-                  <TableColumn prefWidth="138.0" text="Карбонатність, %" />
-                  <TableColumn prefWidth="144.0" text="Амплітуда ВП, мв" />
-                  <TableColumn maxWidth="200.0" prefWidth="78.0" text="Тип" />
+                  <TableColumn fx:id="trainingNumbers" prefWidth="41.0" text="№ Об'єкта" />
+                  <TableColumn fx:id="trainingSponginess" prefWidth="118.0" text="Пористість, %" />
+                  <TableColumn fx:id="trainingAmountOfClay" prefWidth="122.0" text="Глинистість, %" />
+                  <TableColumn fx:id="trainingAmountOfCarbonate" prefWidth="138.0" text="Карбонатність, %" />
+                  <TableColumn fx:id="trainingVPAmplitude" prefWidth="144.0" text="Амплітуда ВП, мв" />
+                  <TableColumn fx:id="trainingType" maxWidth="200.0" prefWidth="78.0" text="Тип" />
                </columns>
             </TableView>
             <Label layoutX="15.0" layoutY="231.0" text="Реальні Дані" />

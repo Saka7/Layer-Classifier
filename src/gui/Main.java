@@ -1,10 +1,6 @@
 package gui;
 
-import beans.RealLayerFeatures;
-import beans.TrainingLayerFeatures;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -14,19 +10,7 @@ public class Main extends Application {
 
 	private Stage primaryStage = new Stage();
 	private VBox rootPane;
-	
-	private ObservableList<TrainingLayerFeatures> trainingLayersFeatures = FXCollections.observableArrayList();
-	private ObservableList<RealLayerFeatures> realLayersFeatures = FXCollections.observableArrayList();
-	
-	public Main() {
-		for (int i = 0; i < 20; i++)
-			trainingLayersFeatures.add(new TrainingLayerFeatures(i, i/10, i/5, i/20, i*15, 0));
-	}
-	
-	public ObservableList<TrainingLayerFeatures> getLayerFeatures() {
-		return trainingLayersFeatures;
-	}
-
+		
 	@Override
 	public void start(Stage primaryStage) {
 		try {
