@@ -8,13 +8,13 @@ import beans.RealLayerFeatures;
 import beans.RealLayerFeaturesData;
 import beans.TrainingLayerFeatures;
 import beans.TrainingLayerFeaturesData;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -39,8 +39,9 @@ import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
-
 import neuralNets.BackPropagationNeuralNet;
+import neuralNets.ExtendedDeltaBarDeltaNeuralNet;
+import neuralNets.NeuralNet;
 import utils.ArtificialValueGenerator;
 import utils.CSVDispatcher;
 
@@ -95,11 +96,15 @@ public class MainController {
 
 	private Main mainApp;
 
+	private NeuralNet net;
+
 	public MainController() {
 	}
 
 	@FXML
 	private void initialize() {
+		net = new BackPropagationNeuralNet();
+
 		// Initialize table's data
 		initTables();
 
@@ -237,12 +242,12 @@ public class MainController {
 
 	// Initialize tables with random values
 	private void initTables() {
-		for (int i = 0; i < 20; i++) {
-			trainingLayersFeatures
-					.add(new TrainingLayerFeatures(i, Math.random(), Math.random(), Math.random(), Math.random(), 0));
-			realLayersFeatures
-					.add(new RealLayerFeatures(i, Math.random(), Math.random(), Math.random(), Math.random()));
-		}
+		/*
+		 * for (int i = 0; i < 20; i++) { trainingLayersFeatures .add(new
+		 * TrainingLayerFeatures(i, Math.random(), Math.random(), Math.random(),
+		 * Math.random(), 0)); realLayersFeatures .add(new RealLayerFeatures(i,
+		 * Math.random(), Math.random(), Math.random(), Math.random())); }
+		 */
 	}
 
 	public void setMain(Main mainApp) {
@@ -256,6 +261,7 @@ public class MainController {
 		options.initOwner(mainApp.getStage());
 		VBox optionsBox = new VBox(5);
 		optionsBox.setPadding(new Insets(0, 15, 0, 15));
+		optionsBox.setAlignment(Pos.CENTER);
 		Button ok = new Button("OK");
 
 		Label learningRateLabel = new Label("Learning Rate");
@@ -265,20 +271,20 @@ public class MainController {
 		final Slider learningRate = new Slider(0.001, 1.0, 0.001);
 		learningRate.setShowTickLabels(true);
 		learningRate.setShowTickMarks(true);
-		learningRate.setMajorTickUnit(50);
-		learningRate.setMinorTickCount(5);
+		learningRate.setMajorTickUnit(0.1);
+		learningRate.setMinorTickCount(1);
 
-		final Slider maxIterations = new Slider(1, 1e5, 100);
+		final Slider maxIterations = new Slider(1, 1e4, 100);
 		maxIterations.setShowTickLabels(true);
 		maxIterations.setShowTickMarks(true);
-		maxIterations.setMajorTickUnit(50);
+		maxIterations.setMajorTickUnit(1000);
 		maxIterations.setMinorTickCount(5);
 
 		final Slider maxError = new Slider(.001, 1.0, .001);
 		maxError.setShowTickLabels(true);
 		maxError.setShowTickMarks(true);
-		maxError.setMajorTickUnit(50);
-		maxError.setMinorTickCount(5);
+		maxError.setMajorTickUnit(0.1);
+		maxError.setMinorTickCount(1);
 
 		TextField learningRateValue = new TextField(String.valueOf(learningRate.getValue()));
 		learningRateValue.textProperty().bindBidirectional(learningRate.valueProperty(), new NumberStringConverter());
@@ -323,9 +329,17 @@ public class MainController {
 				expected[i][0] = item.getType();
 			}
 
-			BackPropagationNeuralNet.calculate(inputs, expected, learningRate.getValue(), maxError.getValue(),
+			if (neuralNetworkType.getValue().equals("Back Propagation"))
+				net = new BackPropagationNeuralNet();
+			else
+				net = new ExtendedDeltaBarDeltaNeuralNet();
+
+			String results = net.train(inputs, expected, learningRate.getValue(), maxError.getValue(),
 					Math.round(maxIterations.getValue()));
 
+			resultText.appendText(net.getClass().getSimpleName() + " : training has been completed sucessfully:\n");
+			resultText.appendText("\terror = " + results.split(" ")[1]);
+			resultText.appendText("\n\ton " + results.split(" ")[0] + " epoch");
 			options.close();
 		});
 
@@ -383,7 +397,31 @@ public class MainController {
 	}
 
 	public void solve() {
-		resultText.appendText("Solving\n");
+		resultText.appendText("\nSolving\n");
+		int size = realLayersFeatures.size();
+		double[][] inputs = new double[size][4];
+
+		for (int i = 0; i < size; i++) {
+			RealLayerFeatures item = realLayersFeatures.get(i);
+			inputs[i][0] = item.getSponginess();
+			inputs[i][1] = item.getAmountOfClay();
+			inputs[i][2] = item.getAmountOfCarbonate();
+			inputs[i][3] = item.getVPAmplitude();
+		}
+
+		double[] results = new double[inputs.length];
+
+		results = net.solve(inputs);
+
+		resultText.appendText("\nResults:\n");
+		for (int i = 0; i < results.length; i++) {
+			resultText.appendText("\n Object [" + i + "] = is ");
+			if (results[i] > .5) {
+				resultText.appendText("tire");
+			} else {
+				resultText.appendText("collector");
+			}
+		}
 	}
 
 	// File Menu Bar
@@ -456,7 +494,12 @@ public class MainController {
 	}
 
 	public void newWeights() {
-		// TODO Implement clearing weights
+		if (net instanceof BackPropagationNeuralNet)
+			net = new BackPropagationNeuralNet();
+		else if (net instanceof ExtendedDeltaBarDeltaNeuralNet)
+			net = new ExtendedDeltaBarDeltaNeuralNet();
+		
+		resultText.appendText("\nClearing weights for " + net.getClass().getSimpleName() + " \n");
 	}
 
 	public void loadWeights() {
@@ -467,6 +510,7 @@ public class MainController {
 		if (file == null)
 			return;
 
+		net.loadWeights(file.getAbsolutePath());
 		resultText.appendText("\nLoading weights from : " + file.getAbsolutePath() + "\n");
 	}
 
@@ -477,7 +521,7 @@ public class MainController {
 
 		if (file == null)
 			return;
-
+		net.saveWeights(file.getAbsolutePath());
 		resultText.appendText("\nSaving weights to: " + file.getAbsolutePath() + "\n");
 	}
 

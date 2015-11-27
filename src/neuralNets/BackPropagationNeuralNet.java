@@ -1,5 +1,7 @@
 package neuralNets;
 
+import java.io.File;
+
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.mathutil.randomize.ConsistentRandomizer;
@@ -10,25 +12,48 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
+import org.encog.persist.EncogDirectoryPersistence;
 
-public class BackPropagationNeuralNet {
+public class BackPropagationNeuralNet implements NeuralNet {
 
-	public static void calculate(final double[][] inputs, final double[][] expected, double learningRate,
-			double maxError, long maxIterations) {
+	private BasicNetwork network;
+	private MLDataSet trainingSet;
+	private Backpropagation train;
 
-		// create a neural network, without using a factory
-		BasicNetwork network = new BasicNetwork();
+	public void saveWeights(String filename) {
+		if (!filename.substring(filename.length() - 3, filename.length()).equals(".eg")) {
+			filename += ".eg";
+		}
+		EncogDirectoryPersistence.saveObject(new File(filename), network);
+	}
+
+	public void loadWeights(String filename) {
+		network = (BasicNetwork) EncogDirectoryPersistence.loadObject(new File(filename));
+	}
+
+	private double learningRate;
+
+	public BackPropagationNeuralNet() {
+		network = new BasicNetwork();
 		network.addLayer(new BasicLayer(null, true, 4));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 10));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
 		network.getStructure().finalizeStructure();
 		network.reset();
 		new ConsistentRandomizer(-1, 1, 500).randomize(network);
-		System.out.println(network.dumpWeights());
+		// System.out.println(network.dumpWeights());
+	}
 
-		MLDataSet trainingSet = new BasicMLDataSet(inputs, expected);
+	public BackPropagationNeuralNet(String filename) {
+		loadWeights(filename);
+	}
 
-		final Backpropagation train = new Backpropagation(network, trainingSet, learningRate, 0.3);
+	public String train(final double[][] inputs, final double[][] expected, double learningRate, double maxError,
+			long maxIterations) {
+
+		this.learningRate = learningRate;
+		trainingSet = new BasicMLDataSet(inputs, expected);
+		train = new Backpropagation(network, trainingSet, this.learningRate, 0.3);
 		train.fixFlatSpot(false);
 
 		int epoch = 1;
@@ -40,14 +65,19 @@ public class BackPropagationNeuralNet {
 				break;
 		} while (train.getError() > maxError);
 
-		// test the neural network
-		System.out.println("Neural Network Results:");
+		return new String(epoch + " " + train.getError());
+	}
+
+	public double[] solve(final double[][] inputs) {
+		double[] results = new double[inputs.length];
+		trainingSet = new BasicMLDataSet(inputs, null);
+		int i = 0;
 		for (MLDataPair pair : trainingSet) {
 			final MLData output = network.compute(pair.getInput());
-			System.out.println(pair.getInput().getData(0) + "," + pair.getInput().getData(1) + ", actual="
-					+ output.getData(0) + ",ideal=" + pair.getIdeal().getData(0));
+			results[i++] = output.getData(0);
 		}
 
 		Encog.getInstance().shutdown();
+		return results;
 	}
 }
