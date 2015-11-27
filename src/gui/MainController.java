@@ -16,6 +16,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -240,14 +244,12 @@ public class MainController {
 		neuralNetworkType.setValue("Back Propagation");
 	}
 
-	// Initialize tables with random values
+	// Initialize tables 
 	private void initTables() {
-		/*
-		 * for (int i = 0; i < 20; i++) { trainingLayersFeatures .add(new
-		 * TrainingLayerFeatures(i, Math.random(), Math.random(), Math.random(),
-		 * Math.random(), 0)); realLayersFeatures .add(new RealLayerFeatures(i,
-		 * Math.random(), Math.random(), Math.random(), Math.random())); }
-		 */
+		CSVDispatcher.filename = "data_samples/training.csv";
+		CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
+		CSVDispatcher.filename = "data_samples/tests.csv";
+		CSVDispatcher.CSVFile2RList(realLayersFeatures);
 	}
 
 	public void setMain(Main mainApp) {
@@ -256,6 +258,7 @@ public class MainController {
 
 	// Train neural nets with parameters
 	public void train() {
+		resultText.appendText(neuralNetworkType.getValue() + " : Training\n");
 		final Stage options = new Stage();
 		options.initModality(Modality.APPLICATION_MODAL);
 		options.initOwner(mainApp.getStage());
@@ -329,21 +332,68 @@ public class MainController {
 				expected[i][0] = item.getType();
 			}
 
-			if (neuralNetworkType.getValue().equals("Back Propagation"))
+			String networkType = "";
+			if (neuralNetworkType.getValue().equals("Back Propagation")) {
 				net = new BackPropagationNeuralNet();
-			else
+				networkType = "Back Propagation";
+			} else {
 				net = new ExtendedDeltaBarDeltaNeuralNet();
-
+				networkType = "Extended Delta Bar Delta";
+			}
 			String results = net.train(inputs, expected, learningRate.getValue(), maxError.getValue(),
 					Math.round(maxIterations.getValue()));
 
-			resultText.appendText(net.getClass().getSimpleName() + " : training has been completed sucessfully:\n");
-			resultText.appendText("\terror = " + results.split(" ")[1]);
-			resultText.appendText("\n\ton " + results.split(" ")[0] + " epoch");
-			options.close();
-		});
+			resultText.appendText("\n\n" + networkType + " : training has been completed sucessfully:\n");
+			resultText.appendText("error = " + results.split(" ")[1]);
+			resultText.appendText("\non " + results.split(" ")[0] + " epoch\n\n");
 
-		resultText.appendText(neuralNetworkType.getValue() + " : Training\n");
+			String[] sweights = net.getWeights().split(",");
+			double[] weights = new double[sweights.length];
+
+			resultText.appendText("\nWith weights:\n");
+			for (int i = 0; i < weights.length; i++) {
+				weights[i] = Double.parseDouble(sweights[i]);
+				resultText.appendText(String.format("%.4f", weights[i]));
+				if ((i + 1) % 4 == 0)
+					resultText.appendText("\n");
+				else
+					resultText.appendText(",\t");
+			}
+
+			options.close();
+
+			// Show Error - Iteration chart
+			List<Integer> iterations = net.getIterations();
+			List<Double> errors = net.getErrors();
+
+			final Stage chartStage = new Stage();
+			chartStage.setTitle("Training error chart");
+			// defining the axes
+			final NumberAxis xAxis = new NumberAxis();
+			final NumberAxis yAxis = new NumberAxis();
+			xAxis.setLabel("Iteration");
+			yAxis.setLabel("Error");
+			// creating the chart
+			final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+			lineChart.setCreateSymbols(false);
+
+			lineChart.setTitle("Training error chart for " + networkType);
+			// defining a series
+			Series<Number, Number> series = new XYChart.Series<>();
+			series.setName("Errors");
+
+			// populating the series with data
+			for (int i = 0; i < iterations.size(); i++) {
+				series.getData().add(new XYChart.Data(iterations.get(i), errors.get(i)));
+			}
+
+			Scene scene = new Scene(lineChart, 800, 600);
+			lineChart.getData().add(series);
+
+			chartStage.setScene(scene);
+			chartStage.show();
+
+		});
 	}
 
 	// Generating test table's rows
@@ -413,10 +463,15 @@ public class MainController {
 
 		results = net.solve(inputs);
 
+		System.out.println("Results :");
+		for (double d : results) {
+			System.out.println(d);
+		}
+
 		resultText.appendText("\nResults:\n");
 		for (int i = 0; i < results.length; i++) {
 			resultText.appendText("\n Object [" + i + "] = is ");
-			if (results[i] > .5) {
+			if (results[i] < .9) {
 				resultText.appendText("tire");
 			} else {
 				resultText.appendText("collector");
@@ -498,7 +553,7 @@ public class MainController {
 			net = new BackPropagationNeuralNet();
 		else if (net instanceof ExtendedDeltaBarDeltaNeuralNet)
 			net = new ExtendedDeltaBarDeltaNeuralNet();
-		
+
 		resultText.appendText("\nClearing weights for " + net.getClass().getSimpleName() + " \n");
 	}
 

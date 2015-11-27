@@ -1,6 +1,8 @@
 package neuralNets;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
@@ -20,6 +22,9 @@ public class BackPropagationNeuralNet implements NeuralNet {
 	private MLDataSet trainingSet;
 	private Backpropagation train;
 
+	private List<Integer> iterations;
+	private List<Double> errors;
+
 	public void saveWeights(String filename) {
 		if (!filename.substring(filename.length() - 3, filename.length()).equals(".eg")) {
 			filename += ".eg";
@@ -34,6 +39,9 @@ public class BackPropagationNeuralNet implements NeuralNet {
 	private double learningRate;
 
 	public BackPropagationNeuralNet() {
+		iterations = new ArrayList<>();
+		errors = new ArrayList<>();
+		
 		network = new BasicNetwork();
 		network.addLayer(new BasicLayer(null, true, 4));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 10));
@@ -41,7 +49,6 @@ public class BackPropagationNeuralNet implements NeuralNet {
 		network.getStructure().finalizeStructure();
 		network.reset();
 		new ConsistentRandomizer(-1, 1, 500).randomize(network);
-		// System.out.println(network.dumpWeights());
 	}
 
 	public BackPropagationNeuralNet(String filename) {
@@ -56,10 +63,15 @@ public class BackPropagationNeuralNet implements NeuralNet {
 		train = new Backpropagation(network, trainingSet, this.learningRate, 0.3);
 		train.fixFlatSpot(false);
 
-		int epoch = 1;
+		int epoch = 0;
 
 		do {
+			iterations.add(new Integer(epoch));
+			
 			train.iteration();
+			
+			errors.add(new Double(train.getError()));
+			
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
 			if (epoch++ > maxIterations)
 				break;
@@ -79,5 +91,20 @@ public class BackPropagationNeuralNet implements NeuralNet {
 
 		Encog.getInstance().shutdown();
 		return results;
+	}
+
+	@Override
+	public List<Integer> getIterations() {
+		return iterations;
+	}
+
+	@Override
+	public List<Double> getErrors() {
+		return errors;
+	}
+
+	@Override
+	public String getWeights() {
+		return network.dumpWeights();
 	}
 }
