@@ -75,7 +75,7 @@ public class BackPropagationNeuralNet implements NeuralNet {
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
 			if (epoch++ > maxIterations)
 				break;
-		} while (train.getError() > maxError);
+		} while (train.getError() > maxError/100);
 
 		return new String(epoch + " " + train.getError());
 	}

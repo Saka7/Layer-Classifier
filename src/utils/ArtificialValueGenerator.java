@@ -7,9 +7,11 @@ import java.util.Random;
  * Implements 3 sigma method
  */
 public class ArtificialValueGenerator {
+	private static Random rand = new Random();
+	
 	// TODO Reimplement this shit
 	public static double getRandom3Sigma() {
-		return Math.random() * 15 + 15;
+		return Math.abs(Math.round((rand.nextGaussian() * 15 + 30) * 1e4)/1e4);
 	}
 	
 	
