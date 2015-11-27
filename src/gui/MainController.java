@@ -13,25 +13,31 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import utils.CSVDispatcher;
 
 public class MainController {
@@ -239,12 +245,100 @@ public class MainController {
 		this.mainApp = mainApp;
 	}
 
-	// Useful buttons
+	// Train neural nets with parameters
 	public void train() {
+		final Stage options = new Stage();
+		options.initModality(Modality.APPLICATION_MODAL);
+		options.initOwner(mainApp.getStage());
+		VBox optionsBox = new VBox(5);
+		optionsBox.setPadding(new Insets(0, 15, 0, 15));
+		Button ok = new Button("OK");
+
+		Label learningRateLabel = new Label("Learning Rate");
+		Label maxIterationsLabel = new Label("Max Iteration");
+		Label maxErrorLabel = new Label("Max Error");
+
+		final Slider learningRate = new Slider(0.001, 1.0, 0.001);
+		learningRate.setShowTickLabels(true);
+		learningRate.setShowTickMarks(true);
+		learningRate.setMajorTickUnit(50);
+		learningRate.setMinorTickCount(5);
+
+		final Slider maxIterations = new Slider(1, 1000, 1);
+		maxIterations.setShowTickLabels(true);
+		maxIterations.setShowTickMarks(true);
+		maxIterations.setMajorTickUnit(50);
+		maxIterations.setMinorTickCount(5);
+
+		final Slider maxError = new Slider(.001, 1.0, .001);
+		maxError.setShowTickLabels(true);
+		maxError.setShowTickMarks(true);
+		maxError.setMajorTickUnit(50);
+		maxError.setMinorTickCount(5);
+
+		TextField learningRateValue = new TextField(String.valueOf(learningRate.getValue()));
+		learningRateValue.textProperty().bindBidirectional(learningRate.valueProperty(), new NumberStringConverter());
+
+		TextField maxIterationsValue = new TextField(String.valueOf(maxIterations.getValue()));
+		maxIterationsValue.textProperty().bindBidirectional(maxIterations.valueProperty(), new NumberStringConverter());
+
+		TextField maxErrorValue = new TextField(String.valueOf(maxError.getValue()));
+		maxErrorValue.textProperty().bindBidirectional(maxError.valueProperty(), new NumberStringConverter());
+
+		optionsBox.getChildren().add(learningRateLabel);
+		optionsBox.getChildren().add(learningRate);
+		optionsBox.getChildren().add(learningRateValue);
+
+		optionsBox.getChildren().add(maxIterationsLabel);
+		optionsBox.getChildren().add(maxIterations);
+		optionsBox.getChildren().add(maxIterationsValue);
+
+		optionsBox.getChildren().add(maxErrorLabel);
+		optionsBox.getChildren().add(maxError);
+		optionsBox.getChildren().add(maxErrorValue);
+
+		optionsBox.getChildren().add(ok);
+
+		Scene optionScene = new Scene(optionsBox, 300, 340);
+		options.setResizable(false);
+		options.setTitle(neuralNetworkType.getValue());
+		options.setScene(optionScene);
+		options.show();
 		resultText.appendText(neuralNetworkType.getValue() + " : Training\n");
 	}
 
+	// Generating test table's rows
 	public void generate() {
+		final Stage options = new Stage();
+		options.initModality(Modality.APPLICATION_MODAL);
+		options.initOwner(mainApp.getStage());
+		HBox optionsBox = new HBox(10);
+		optionsBox.setPadding(new Insets(10, 15, 10, 15));
+		Button ok = new Button("OK");
+
+		Label amountOfRowsLable = new Label("Amount of rows: ");
+
+		final Slider amountOfRows = new Slider(1, 500, 1);
+		amountOfRows.setShowTickLabels(true);
+		amountOfRows.setShowTickMarks(true);
+		amountOfRows.setMajorTickUnit(50);
+		amountOfRows.setMinorTickCount(5);
+
+		TextField amountOfRowsValue = new TextField(String.valueOf(amountOfRows.getValue()));
+		amountOfRowsValue.textProperty().bindBidirectional(amountOfRows.valueProperty(), new NumberStringConverter());
+
+		optionsBox.getChildren().add(amountOfRowsLable);
+		optionsBox.getChildren().add(amountOfRows);
+		optionsBox.getChildren().add(amountOfRowsValue);
+
+		optionsBox.getChildren().add(ok);
+
+		Scene optionScene = new Scene(optionsBox, 520, 60);
+		options.setResizable(false);
+		options.setTitle("Artificial value generating");
+		options.setScene(optionScene);
+		options.show();
+		resultText.appendText(neuralNetworkType.getValue() + " : Training\n");
 		resultText.appendText("Generating\n");
 	}
 
