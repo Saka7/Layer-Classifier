@@ -7,6 +7,12 @@ import java.util.Random;
  * Implements 3 sigma method
  */
 public class ArtificialValueGenerator {
+	// TODO Reimplement this shit
+	public static double getRandom3Sigma() {
+		return Math.random() * 15 + 15;
+	}
+	
+	
 	public static double getRandom3Sigma(double[] array) {
 		double[] randomVals = new double[array.length];
 		double sum = 0;

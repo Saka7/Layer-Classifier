@@ -38,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
+import utils.ArtificialValueGenerator;
 import utils.CSVDispatcher;
 
 public class MainController {
@@ -304,6 +305,11 @@ public class MainController {
 		options.setTitle(neuralNetworkType.getValue());
 		options.setScene(optionScene);
 		options.show();
+
+		ok.setOnAction(e -> {
+			options.close();
+		});
+
 		resultText.appendText(neuralNetworkType.getValue() + " : Training\n");
 	}
 
@@ -340,6 +346,21 @@ public class MainController {
 		options.show();
 		resultText.appendText(neuralNetworkType.getValue() + " : Training\n");
 		resultText.appendText("Generating\n");
+
+		// Event Listener for generating random rows
+		ok.setOnAction(e -> {
+			realLayersFeatures.clear();
+			for (int i = 0; i < Math.round(amountOfRows.getValue()); i++) {
+				double sponginess = ArtificialValueGenerator.getRandom3Sigma();
+				double amountOfClay = ArtificialValueGenerator.getRandom3Sigma();
+				double amountOfCarbonate = ArtificialValueGenerator.getRandom3Sigma();
+				double vPAmplitude = ArtificialValueGenerator.getRandom3Sigma();
+
+				realLayersFeatures
+						.add(new RealLayerFeatures(i, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude));
+				options.close();
+			}
+		});
 	}
 
 	public void solve() {
@@ -441,10 +462,12 @@ public class MainController {
 		resultText.appendText("\nSaving weights to: " + file.getAbsolutePath() + "\n");
 	}
 
+	// Exit from application
 	public void exit() {
 		Platform.exit();
 	}
 
+	// Clear results text area
 	public void clearResults() {
 		resultText.clear();
 	}
