@@ -8,6 +8,7 @@ import beans.RealLayerFeatures;
 import beans.RealLayerFeaturesData;
 import beans.TrainingLayerFeatures;
 import beans.TrainingLayerFeaturesData;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,6 +39,8 @@ import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
+
+import neuralNets.BackPropagationNeuralNet;
 import utils.ArtificialValueGenerator;
 import utils.CSVDispatcher;
 
@@ -265,7 +268,7 @@ public class MainController {
 		learningRate.setMajorTickUnit(50);
 		learningRate.setMinorTickCount(5);
 
-		final Slider maxIterations = new Slider(1, 1000, 1);
+		final Slider maxIterations = new Slider(1, 1e5, 100);
 		maxIterations.setShowTickLabels(true);
 		maxIterations.setShowTickMarks(true);
 		maxIterations.setMajorTickUnit(50);
@@ -307,6 +310,22 @@ public class MainController {
 		options.show();
 
 		ok.setOnAction(e -> {
+			int size = trainingLayersFeatures.size();
+			double[][] inputs = new double[size][4];
+			double[][] expected = new double[size][1];
+
+			for (int i = 0; i < size; i++) {
+				TrainingLayerFeatures item = trainingLayersFeatures.get(i);
+				inputs[i][0] = item.getSponginess();
+				inputs[i][1] = item.getAmountOfClay();
+				inputs[i][2] = item.getAmountOfCarbonate();
+				inputs[i][3] = item.getVPAmplitude();
+				expected[i][0] = item.getType();
+			}
+
+			BackPropagationNeuralNet.calculate(inputs, expected, learningRate.getValue(), maxError.getValue(),
+					Math.round(maxIterations.getValue()));
+
 			options.close();
 		});
 
