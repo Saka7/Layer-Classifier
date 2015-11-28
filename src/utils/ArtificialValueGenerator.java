@@ -9,7 +9,7 @@ import java.util.Random;
 public class ArtificialValueGenerator {
 	private static Random rand = new Random();
 
-	// TODO Reimplement this shit
+	// TODO 
 	public static double[] getRandom3Sigma(final double[][] samples) {
 		
 		// Show matrix ============================================
