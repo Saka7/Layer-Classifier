@@ -2,9 +2,10 @@ package beans;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
+/** Запис для таблиці Тренувальні дані */
 public class TrainingLayerFeatures extends RealLayerFeatures {
 
-	protected final SimpleIntegerProperty type;
+	protected final SimpleIntegerProperty type; // Тип
 
 	public TrainingLayerFeatures() {
 		this(0, 0.0, 0.0, 0.0, 0.0, 0);
@@ -15,8 +16,8 @@ public class TrainingLayerFeatures extends RealLayerFeatures {
 		super(number, sponginess, amountOfCarbonate, amountOfClay, vPAmplitude);
 		this.type = new SimpleIntegerProperty(type);
 	}
-
-	// Types's property accessory
+	
+	// Аксесри для Типу
 	public int getType() {
 		return type.get();
 	}

@@ -12,10 +12,12 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 
+/** Нейромережа Extended Delta Bar Delta */
 public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet implements NeuralNet {
 
-	private ResilientPropagation train;
+	private ResilientPropagation train; // Алгоритм навчання
 
+	/** Конструктор для ініціалізації структури	*/
 	public ExtendedDeltaBarDeltaNeuralNet() {
 		iterations = new ArrayList<>();
 		errors = new ArrayList<>();
@@ -28,11 +30,13 @@ public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet imp
 		new ConsistentRandomizer(-1, 1, 500).randomize(network);
 	}
 
+	/** Конструктор для завантаження параметрів нейромережі із файлу */
 	public ExtendedDeltaBarDeltaNeuralNet(String filename) {
 		this();
 		loadWeights(filename);
 	}
-
+	
+	/** {@inheritDoc} */
 	public String train(final double[][] inputs, final double[][] expected, double learningRate, double maxError,
 			long maxIterations) {
 
@@ -40,9 +44,7 @@ public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet imp
 		trainingSet = new BasicMLDataSet(inputs, expected);
 		train = new ResilientPropagation(network, trainingSet, this.learningRate, 0.3);
 		train.fixFlatSpot(false);
-
 		int epoch = 0;
-
 		do {
 			iterations.add(new Integer(epoch));
 			train.iteration();
@@ -50,10 +52,10 @@ public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet imp
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
 			if (epoch++ > maxIterations) break;
 		} while (train.getError() > maxError);
-
 		return new String(epoch + " " + train.getError());
 	}
 
+	/** {@inheritDoc} */
 	public double[] solve(final double[][] inputs) {
 		double[] results = new double[inputs.length];
 		trainingSet = new BasicMLDataSet(inputs, null);
@@ -62,7 +64,6 @@ public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet imp
 			final MLData output = network.compute(pair.getInput());
 			results[i++] = output.getData(0);
 		}
-
 		Encog.getInstance().shutdown();
 		return results;
 	}

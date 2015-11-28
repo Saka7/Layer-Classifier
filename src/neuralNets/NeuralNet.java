@@ -2,9 +2,7 @@ package neuralNets;
 
 import java.util.List;
 
-/**
- * Інтерфейс нейромереж
- */
+/** Інтерфейс нейромереж */
 public interface NeuralNet {
 	
 	/**
@@ -38,18 +36,12 @@ public interface NeuralNet {
 	 */
 	void loadWeights(String filename);
 
-	/**
-	 * @return інерації
-	 */
+	/** @return ітерації */
 	List<Integer> getIterations();
 
-	/**
-	 * @return помилки на кожній ітерації
-	 */
+	/** @return помилки на кожній ітерації */
 	List<Double> getErrors();
 	
-	/**
-	 * @return ваги 
-	 */
+	/** @return ваги */
 	String getWeights();
 }

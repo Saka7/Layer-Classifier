@@ -3,13 +3,14 @@ package beans;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/** Запис для таблиці Реальні дані */
 public class RealLayerFeatures {
 
-	protected SimpleIntegerProperty number;
-	protected SimpleDoubleProperty sponginess;
-	protected SimpleDoubleProperty amountOfClay;
-	protected SimpleDoubleProperty amountOfCarbonate;
-	protected SimpleDoubleProperty vPAmplitude;
+	protected SimpleIntegerProperty number; // Номер об'єкта
+	protected SimpleDoubleProperty sponginess; // Пористість
+	protected SimpleDoubleProperty amountOfClay; // Глинистість
+	protected SimpleDoubleProperty amountOfCarbonate; // Карбонатність
+	protected SimpleDoubleProperty vPAmplitude; // Амплітуда ВП
 
 	public RealLayerFeatures() {
 		this(0, 0.0, 0.0, 0.0, 0.0);
@@ -24,7 +25,7 @@ public class RealLayerFeatures {
 		this.vPAmplitude = new SimpleDoubleProperty(vPAmplitude);
 	}
 
-	// Number's property accessory
+	// Аксесори для Номеру об'єкта
 	public int getNumber() {
 		return number.get();
 	}
@@ -37,7 +38,7 @@ public class RealLayerFeatures {
 		return number;
 	}
 
-	// amountOfCarbonate's property accessory
+	// Аксесори для Карбонатності
 	public double getAmountOfCarbonate() {
 		return amountOfCarbonate.get();
 	}
@@ -50,7 +51,7 @@ public class RealLayerFeatures {
 		return amountOfCarbonate;
 	}
 
-	// sponginess's property accessory
+	// Аксесори для Пористості
 	public double getSponginess() {
 		return sponginess.get();
 	}
@@ -63,7 +64,7 @@ public class RealLayerFeatures {
 		return sponginess;
 	}
 
-	// vPAmplitude's property accessory
+	// Аксесори для Амплітуди ВП
 	public double getVPAmplitude() {
 		return amountOfClay.get();
 	}
@@ -76,7 +77,7 @@ public class RealLayerFeatures {
 		return vPAmplitude;
 	}
 
-	// amountOfClay's property accessory
+	// Аксесори для Глинистості
 	public double getAmountOfClay() {
 		return amountOfClay.get();
 	}

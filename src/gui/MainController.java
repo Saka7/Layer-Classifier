@@ -45,6 +45,7 @@ import neuralNets.ExtendedDeltaBarDeltaNeuralNet;
 import neuralNets.NeuralNet;
 import utils.CSVDispatcher;
 
+/** Основний контроллер-клас */
 public class MainController {
 
 	@FXML
@@ -88,8 +89,8 @@ public class MainController {
 	private TableColumn<RealLayerFeatures, Double> realVPAmplitude;
 	private ObservableList<RealLayerFeatures> realLayersFeatures = FXCollections.observableArrayList();
 
-	private Main mainApp;
-	private NeuralNet net;
+	private Main mainApp; // Посилання на Main-клас
+	private NeuralNet net; // Нейромережа
 
 	/** Ініціалізація форми */
 	@FXML

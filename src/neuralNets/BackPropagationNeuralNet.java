@@ -16,25 +16,29 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.persist.EncogDirectoryPersistence;
 
+/** Нейромережа BackPropagation*/
 public class BackPropagationNeuralNet implements NeuralNet {
 
-	protected BasicNetwork network;
-	protected MLDataSet trainingSet;
-	private Backpropagation train;
-	protected List<Integer> iterations;
-	protected List<Double> errors;
-	protected double learningRate;
+	protected BasicNetwork network; // Нейромережа
+	protected MLDataSet trainingSet; // Набір даних
+	private Backpropagation train; // Алгоритм тренування
+	protected List<Integer> iterations; // Список ітерацій
+	protected List<Double> errors; // Список помилок
+	protected double learningRate; // Швидкість навчання
 
+	@Override /** {@inheritDoc} */
 	public void saveWeights(String filename) {
 		if (!filename.substring(filename.length() - 3, filename.length()).equals(".eg"))
 			filename += ".eg";
 		EncogDirectoryPersistence.saveObject(new File(filename), network);
 	}
 
+	@Override /** {@inheritDoc} */
 	public void loadWeights(String filename) {
 		network = (BasicNetwork) EncogDirectoryPersistence.loadObject(new File(filename));
 	}
-
+	
+	/** Конструктор для ініціалізації структури	*/
 	public BackPropagationNeuralNet() {
 		iterations = new ArrayList<>();
 		errors = new ArrayList<>();
@@ -48,10 +52,13 @@ public class BackPropagationNeuralNet implements NeuralNet {
 		new ConsistentRandomizer(-1, 1, 500).randomize(network);
 	}
 
+	/** Конструктор для завантаження параметрів нейромережі із файлу */
 	public BackPropagationNeuralNet(String filename) {
+		this();
 		loadWeights(filename);
 	}
-
+	
+	@Override /** {@inheritDoc} */
 	public String train(final double[][] inputs, final double[][] expected, double learningRate, double maxError,
 			long maxIterations) {
 
@@ -59,9 +66,7 @@ public class BackPropagationNeuralNet implements NeuralNet {
 		trainingSet = new BasicMLDataSet(inputs, expected);
 		train = new Backpropagation(network, trainingSet, this.learningRate, 0.3);
 		train.fixFlatSpot(false);
-
 		int epoch = 0;
-
 		do {
 			iterations.add(new Integer(epoch));
 			train.iteration();
@@ -69,10 +74,10 @@ public class BackPropagationNeuralNet implements NeuralNet {
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
 			if (epoch++ > maxIterations) break;
 		} while (train.getError() > maxError/100);
-
 		return new String(epoch + " " + train.getError());
 	}
 
+	@Override /** {@inheritDoc} */
 	public double[] solve(final double[][] inputs) {
 		double[] results = new double[inputs.length];
 		trainingSet = new BasicMLDataSet(inputs, null);
@@ -81,22 +86,21 @@ public class BackPropagationNeuralNet implements NeuralNet {
 			final MLData output = network.compute(pair.getInput());
 			results[i++] = output.getData(0);
 		}
-
 		Encog.getInstance().shutdown();
 		return results;
 	}
 
-	@Override
+	@Override /** {@inheritDoc} */
 	public List<Integer> getIterations() {
 		return iterations;
 	}
-
-	@Override
+ 
+	@Override /** {@inheritDoc} */
 	public List<Double> getErrors() {
 		return errors;
 	}
 
-	@Override
+	@Override /** {@inheritDoc} */
 	public String getWeights() {
 		return network.dumpWeights();
 	}

@@ -12,21 +12,24 @@ import beans.RealLayerFeatures;
 import beans.TrainingLayerFeatures;
 import javafx.collections.ObservableList;
 
+/** Клас для запису в CSV-файли та парсингу 
+ * ObservableList-ів
+ */
 public class CSVDispatcher {
-	public static String filename;
+	public static String filename; // Назва файлу
 
+	/** Запис даних в CSV-файл */
 	public static <T> void list2CSVFile(ObservableList<T> list) {
 		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"))) {
-
 			for (T item : list)
 				writer.write(item.toString());
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
+	/** Зчитування даних із CSV-файлу 
+	 * і парсинг до типу кортежу тадлиці - Реальні дані */
 	public static void CSVFile2RList(ObservableList<RealLayerFeatures> list) {
 		try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
 		    String line = br.readLine();
@@ -49,6 +52,8 @@ public class CSVDispatcher {
 		} 
 	}
 
+	/** Зчитування даних із CSV-файлу 
+	 * і парсинг до типу кортежу тадлиці - Тренуваліні дані */
 	public static void CSVFile2TList(ObservableList<TrainingLayerFeatures> list) {
 		try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
 		    String line = br.readLine();
@@ -71,5 +76,4 @@ public class CSVDispatcher {
 			e.printStackTrace();
 		} 
 	}
-
 }
