@@ -1,10 +1,11 @@
+``` Bash
     _   __                      __      _   __     __        ________                _ _____          
    / | / /__  __  ___________ _/ /     / | / /__  / /_      / ____/ /___ ___________(_) __(_)__  _____
   /  |/ / _ \/ / / / ___/ __ `/ /_____/  |/ / _ \/ __/_____/ /   / / __ `/ ___/ ___/ / /_/ / _ \/ ___/
  / /|  /  __/ /_/ / /  / /_/ / /_____/ /|  /  __/ /_/_____/ /___/ / /_/ (__  |__  ) / __/ /  __/ /    
 /_/ |_/\___/\__,_/_/   \__,_/_/     /_/ |_/\___/\__/      \____/_/\__,_/____/____/_/_/ /_/\___/_/     
                                                                                                       
-
+```
 # Neural-Net-Classifier
 ###EN:
  App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using **Back Propagation** and **Extended Delta Bar Delta** Neural Nets
