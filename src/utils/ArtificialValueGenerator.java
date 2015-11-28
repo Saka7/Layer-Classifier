@@ -6,7 +6,7 @@ import java.util.Random;
 public class ArtificialValueGenerator {
 	
 	/**
-	 * Генерація штучних змінних за правлом 3-ох сігма
+	 * Генерація штучних змінних за правилом 3-ох сігма
 	 * @return - псевдовипадкове число 
 	 */
 	public static double getRandom3Sigma() {
