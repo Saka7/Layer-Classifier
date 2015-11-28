@@ -338,10 +338,9 @@ public class MainController {
 			}
 			String results = net.train(inputs, expected, learningRate.getValue(), maxError.getValue(),
 					Math.round(maxIterations.getValue()));
-
 			resultText.appendText("\n\n" + networkType + " : тренування успішно завершене:\n");
 			resultText.appendText("похибка = " + results.split(" ")[1]);
-			resultText.appendText("\nна " + results.split(" ")[0] + " інерації\n\n");
+			resultText.appendText("\nна " + results.split(" ")[0] + " ітерації\n\n");
 
 			String[] sweights = net.getWeights().split(",");
 			double[] weights = new double[sweights.length];

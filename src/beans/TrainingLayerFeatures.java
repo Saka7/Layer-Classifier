@@ -17,7 +17,7 @@ public class TrainingLayerFeatures extends RealLayerFeatures {
 		this.type = new SimpleIntegerProperty(type);
 	}
 	
-	// Аксесри для Типу
+	// Аксесори для Типу
 	public int getType() {
 		return type.get();
 	}
