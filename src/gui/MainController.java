@@ -346,7 +346,7 @@ public class MainController {
 			String[] sweights = net.getWeights().split(",");
 			double[] weights = new double[sweights.length];
 
-			resultText.appendText("\nіз такими Вагами:\n");
+			resultText.appendText("із такими Вагами:\n\n");
 			for (int i = 0; i < weights.length; i++) {
 				weights[i] = Double.parseDouble(sweights[i]);
 				resultText.appendText(String.format("%.4f", weights[i]));
@@ -436,7 +436,7 @@ public class MainController {
 				double vPAmplitude = ArtificialValueGenerator.getRandom3Sigma();
 
 				realLayersFeatures
-						.add(new RealLayerFeatures(i, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude));
+						.add(new RealLayerFeatures(i+1, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude));
 				options.close();
 			}
 		});
@@ -461,7 +461,7 @@ public class MainController {
 
 		resultText.appendText("\nРезальтати:\n");
 		for (int i = 0; i < results.length; i++) {
-			resultText.appendText("\n Об'єкт [" + i + "] = ");
+			resultText.appendText("\n Об'єкт [" + (i+1) + "] = ");
 			if (results[i] < .9)
 				resultText.appendText("Покришка");
 			else 
