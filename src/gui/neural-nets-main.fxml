@@ -56,7 +56,7 @@
                </children>
             </Pane>
             <TextArea fx:id="resultText" editable="false" layoutX="14.0" layoutY="489.0" prefHeight="134.0" prefWidth="643.0" />
-            <Label layoutX="196.0" layoutY="626.0" text="Created By Ihor Sakaylyuk PI-13-2. 2015" />
+            <Label layoutX="180.0" layoutY="626.0" text="Розробив: ст. гр. ПІ-13-2 Сакайлюк Ігор. 2015" />
             <TableView fx:id="trainingLayersTable" layoutX="15.0" layoutY="44.0" prefHeight="181.0" prefWidth="643.0">
                <columns>
                   <TableColumn fx:id="trainingNumbers" prefWidth="41.0" text="№ Об'єкта" />

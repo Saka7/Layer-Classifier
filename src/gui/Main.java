@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Main-клас, для підвантаження стректури та стилів і запуску додатку
+ * Main-клас, для підвантаження структури та стилів і запуску додатку
  */
 public class Main extends Application {
 

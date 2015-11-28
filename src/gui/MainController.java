@@ -43,6 +43,7 @@ import javafx.util.converter.NumberStringConverter;
 import neuralNets.BackPropagationNeuralNet;
 import neuralNets.ExtendedDeltaBarDeltaNeuralNet;
 import neuralNets.NeuralNet;
+import utils.ArtificialValueGenerator;
 import utils.CSVDispatcher;
 
 /** Основний контроллер-клас */
@@ -418,7 +419,7 @@ public class MainController {
 
 		optionsBox.getChildren().add(ok);
 
-		Scene optionScene = new Scene(optionsBox, 520, 60);
+		Scene optionScene = new Scene(optionsBox, 550, 60);
 		options.setResizable(false);
 		options.setTitle("Генерація синтетичних даних");
 		options.setScene(optionScene);
@@ -428,15 +429,14 @@ public class MainController {
 		// Обробник подій для генерації штучних змінних
 		ok.setOnAction(e -> {
 			realLayersFeatures.clear();
-			// TODO 
 			for (int i = 0; i < Math.round(amountOfRows.getValue()); i++) {
-				/*double sponginess = ArtificialValueGenerator.getRandom3Sigma();
+				double sponginess = ArtificialValueGenerator.getRandom3Sigma();
 				double amountOfClay = ArtificialValueGenerator.getRandom3Sigma();
 				double amountOfCarbonate = ArtificialValueGenerator.getRandom3Sigma();
 				double vPAmplitude = ArtificialValueGenerator.getRandom3Sigma();
 
 				realLayersFeatures
-						.add(new RealLayerFeatures(i, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude)); */
+						.add(new RealLayerFeatures(i, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude));
 				options.close();
 			}
 		});
@@ -461,12 +461,11 @@ public class MainController {
 
 		resultText.appendText("\nРезальтати:\n");
 		for (int i = 0; i < results.length; i++) {
-			resultText.appendText("\n Об'єкт [" + i + "] = is ");
-			if (results[i] < .9) {
+			resultText.appendText("\n Об'єкт [" + i + "] = ");
+			if (results[i] < .9)
 				resultText.appendText("Покришка");
-			} else {
+			else 
 				resultText.appendText("Коллектор");
-			}
 		}
 	}
 
