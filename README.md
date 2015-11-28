@@ -1,10 +1,10 @@
-# Neural-Net_Classifier
+# Neural-Net-Classifier
 ###EN:
- App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using Back Propagation and Extended Delta Bar Delta Neural Nets
+ App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using *Back Propagation* and *Extended Delta Bar Delta* Neural Nets
 
 ###UA:
  Додаток для вилучення знань з набору даних для визначення типу пласта (колектора, покришка) даних з використанням нейромереж
- Back Propagation та Extended Delta Bar Delta
+ *Back Propagation* та *Extended Delta Bar Delta*
 
 ###Project Structure / Структура проекту
 
