@@ -1,55 +1,24 @@
 package neuralNets;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.mathutil.randomize.ConsistentRandomizer;
 import org.encog.ml.data.MLData;
 import org.encog.ml.data.MLDataPair;
-import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
-import org.encog.persist.EncogDirectoryPersistence;
 
-public class ExtendedDeltaBarDeltaNeuralNet implements NeuralNet {
+public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet implements NeuralNet {
 
-	private BasicNetwork network;
-	private MLDataSet trainingSet;
 	private ResilientPropagation train;
-
-	private List<Integer> iterations;
-	private List<Double> errors;
-
-	public List<Integer> getIterations() {
-		return iterations;
-	}
-
-	public List<Double> getErrors() {
-		return errors;
-	}
-
-	public void saveWeights(String filename) {
-		if (!filename.substring(filename.length() - 3, filename.length()).equals(".eg")) {
-			filename += ".eg";
-		}
-		EncogDirectoryPersistence.saveObject(new File(filename), network);
-	}
-
-	public void loadWeights(String filename) {
-		network = (BasicNetwork) EncogDirectoryPersistence.loadObject(new File(filename));
-	}
-
-	private double learningRate;
 
 	public ExtendedDeltaBarDeltaNeuralNet() {
 		iterations = new ArrayList<>();
 		errors = new ArrayList<>();
-
 		network = new BasicNetwork();
 		network.addLayer(new BasicLayer(null, true, 4));
 		network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 10));
@@ -76,13 +45,10 @@ public class ExtendedDeltaBarDeltaNeuralNet implements NeuralNet {
 
 		do {
 			iterations.add(new Integer(epoch));
-
 			train.iteration();
-
 			errors.add(new Double(train.getError()));
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
-			if (epoch++ > maxIterations)
-				break;
+			if (epoch++ > maxIterations) break;
 		} while (train.getError() > maxError);
 
 		return new String(epoch + " " + train.getError());
@@ -100,10 +66,4 @@ public class ExtendedDeltaBarDeltaNeuralNet implements NeuralNet {
 		Encog.getInstance().shutdown();
 		return results;
 	}
-
-	@Override
-	public String getWeights() {
-		return network.dumpWeights();
-	}
-
 }

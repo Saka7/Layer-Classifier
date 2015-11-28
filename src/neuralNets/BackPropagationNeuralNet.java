@@ -18,25 +18,22 @@ import org.encog.persist.EncogDirectoryPersistence;
 
 public class BackPropagationNeuralNet implements NeuralNet {
 
-	private BasicNetwork network;
-	private MLDataSet trainingSet;
+	protected BasicNetwork network;
+	protected MLDataSet trainingSet;
 	private Backpropagation train;
-
-	private List<Integer> iterations;
-	private List<Double> errors;
+	protected List<Integer> iterations;
+	protected List<Double> errors;
+	protected double learningRate;
 
 	public void saveWeights(String filename) {
-		if (!filename.substring(filename.length() - 3, filename.length()).equals(".eg")) {
+		if (!filename.substring(filename.length() - 3, filename.length()).equals(".eg"))
 			filename += ".eg";
-		}
 		EncogDirectoryPersistence.saveObject(new File(filename), network);
 	}
 
 	public void loadWeights(String filename) {
 		network = (BasicNetwork) EncogDirectoryPersistence.loadObject(new File(filename));
 	}
-
-	private double learningRate;
 
 	public BackPropagationNeuralNet() {
 		iterations = new ArrayList<>();
@@ -67,14 +64,10 @@ public class BackPropagationNeuralNet implements NeuralNet {
 
 		do {
 			iterations.add(new Integer(epoch));
-			
 			train.iteration();
-			
 			errors.add(new Double(train.getError()));
-			
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
-			if (epoch++ > maxIterations)
-				break;
+			if (epoch++ > maxIterations) break;
 		} while (train.getError() > maxError/100);
 
 		return new String(epoch + " " + train.getError());

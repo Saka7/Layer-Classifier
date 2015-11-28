@@ -434,13 +434,13 @@ public class MainController {
 		ok.setOnAction(e -> {
 			realLayersFeatures.clear();
 			for (int i = 0; i < Math.round(amountOfRows.getValue()); i++) {
-				double sponginess = ArtificialValueGenerator.getRandom3Sigma();
+				/*double sponginess = ArtificialValueGenerator.getRandom3Sigma();
 				double amountOfClay = ArtificialValueGenerator.getRandom3Sigma();
 				double amountOfCarbonate = ArtificialValueGenerator.getRandom3Sigma();
 				double vPAmplitude = ArtificialValueGenerator.getRandom3Sigma();
 
 				realLayersFeatures
-						.add(new RealLayerFeatures(i, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude));
+						.add(new RealLayerFeatures(i, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude)); */
 				options.close();
 			}
 		});

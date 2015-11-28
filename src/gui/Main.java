@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Main-клас, для підвантаження стректури та стилів і запуску додатку
+ */
 public class Main extends Application {
 
 	private Stage primaryStage = new Stage();
