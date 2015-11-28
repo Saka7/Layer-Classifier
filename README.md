@@ -7,6 +7,8 @@
  BackPropagation та ExtendedDeltaBarDelta
 
 ###Project Structure / Структура проекту
+
+``` Bash
  .
 ├── bin
 │   ├── beans
@@ -46,3 +48,4 @@
    └── utils
        ├── ArtificialValueGenerator.java
        └── CSVDispatcher.java
+```
