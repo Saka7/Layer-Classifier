@@ -4,7 +4,7 @@
 
 ###UA:
  Додаток для вилучення знань з набору даних для визначення типу пласта (колектора, покришка) даних з використанням нейромереж
- BackPropagation та ExtendedDeltaBarDelta
+ Back Propagation та Extended Delta Bar Delta
 
 ###Project Structure / Структура проекту
 
