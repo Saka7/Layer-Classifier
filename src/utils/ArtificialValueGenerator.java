@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * Implements 3 sigma method
+ * Реалізація методу генерації штучних змінних за правилом 3 сігма
  */
 public class ArtificialValueGenerator {
 	private static Random rand = new Random();
