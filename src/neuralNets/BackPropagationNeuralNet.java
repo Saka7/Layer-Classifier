@@ -38,7 +38,7 @@ public class BackPropagationNeuralNet implements NeuralNet {
 		network = (BasicNetwork) EncogDirectoryPersistence.loadObject(new File(filename));
 	}
 	
-	/** Конструктор для ініціалізації структури	*/
+	/** Конструктор для ініціалізації структури	нейромережі*/
 	public BackPropagationNeuralNet() {
 		iterations = new ArrayList<>();
 		errors = new ArrayList<>();

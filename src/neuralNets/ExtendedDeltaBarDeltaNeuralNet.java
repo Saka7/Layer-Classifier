@@ -17,7 +17,7 @@ public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet imp
 
 	private ResilientPropagation train; // Алгоритм навчання
 
-	/** Конструктор для ініціалізації структури	*/
+	/** Конструктор для ініціалізації структури	нейромережі*/
 	public ExtendedDeltaBarDeltaNeuralNet() {
 		iterations = new ArrayList<>();
 		errors = new ArrayList<>();

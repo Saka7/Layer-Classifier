@@ -36,7 +36,7 @@ public class Main extends Application {
 
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
-			primaryStage.setTitle("Neural Nets Classifier");
+			primaryStage.setTitle("Neural Net Classifier");
 			primaryStage.show();
 
 		} catch (Exception e) {

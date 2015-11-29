@@ -29,7 +29,7 @@ public class CSVDispatcher {
 	}
 
 	/** Зчитування даних із CSV-файлу 
-	 * і парсинг до типу кортежу тадлиці - Реальні дані */
+	 * і парсинг до типу кортежу таблиці - Реальні дані */
 	public static void CSVFile2RList(ObservableList<RealLayerFeatures> list) {
 		try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
 		    String line = br.readLine();
@@ -53,7 +53,7 @@ public class CSVDispatcher {
 	}
 
 	/** Зчитування даних із CSV-файлу 
-	 * і парсинг до типу кортежу тадлиці - Тренуваліні дані */
+	 * і парсинг до типу кортежу таблиці - Тренуваліні дані */
 	public static void CSVFile2TList(ObservableList<TrainingLayerFeatures> list) {
 		try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
 		    String line = br.readLine();
