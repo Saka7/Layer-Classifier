@@ -70,7 +70,7 @@ public class CSVDispatcher {
 		    			Integer.parseInt(data[5])
 		    	));
 		    	
-		        line = br.readLine();
+		        line = br.readLine();		        
 		    }
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -66,7 +66,7 @@ public class RealLayerFeatures {
 
 	// Аксесори для Амплітуди ВП
 	public double getVPAmplitude() {
-		return amountOfClay.get();
+		return vPAmplitude.get();
 	}
 
 	public void setVPAmplitude(double vPAmplitude) {

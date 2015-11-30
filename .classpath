@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry sourcepath="/home/saka/.gradle/caches/modules-2/files-2.1/org.encog/encog-core/3.0.1/d33a7a618157b5d48980901314b7397e33460778/encog-core-3.0.1-sources.jar" kind="lib" path="/home/saka/.gradle/caches/modules-2/files-2.1/org.encog/encog-core/3.0.1/1ccaa42de20dab593f77be7e6215fa5530c2b15d/encog-core-3.0.1.jar"/>
+	<classpathentry kind="lib" path="/home/saka/.gradle/caches/modules-2/files-2.1/org.encog/encog-core/3.0.1/1ccaa42de20dab593f77be7e6215fa5530c2b15d/encog-core-3.0.1.jar" sourcepath="/home/saka/.gradle/caches/modules-2/files-2.1/org.encog/encog-core/3.0.1/d33a7a618157b5d48980901314b7397e33460778/encog-core-3.0.1-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,7 @@
 package gui;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import beans.RealLayerFeatures;
@@ -457,11 +458,11 @@ public class MainController {
 
 		double[] results = new double[inputs.length];
 		results = net.solve(inputs);
-
+		
 		resultText.appendText("\nРезальтати:\n");
 		for (int i = 0; i < results.length; i++) {
 			resultText.appendText("\n Об'єкт [" + (i+1) + "] = ");
-			if (results[i] < .9)
+			if (results[i] < .65)
 				resultText.appendText("Покришка");
 			else 
 				resultText.appendText("Коллектор");
