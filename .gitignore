@@ -1,7 +1,10 @@
-\bin
-\build
-\.gradle
-\.settings
+
+/build
+/.gradle
+/.settings
+/.metadata
+/bin
+.project
 *.csv
 
 
