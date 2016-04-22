@@ -1,4 +1,4 @@
-![Neural-Net-Classifier Logo](edu/nnc/resources/logo.png)
+![Neural-Net-Classifier Logo](src/edu/nnc/resources/logo.png)
 # Neural-Net-Classifier
 ------
  App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using **Back Propagation** and **Resilient Propagation** Neural Nets Learning Algorithms
