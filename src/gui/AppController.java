@@ -1,7 +1,7 @@
 package gui;
 
 import java.io.File;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
 import beans.RealLayerFeatures;
@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,7 +24,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -42,64 +42,71 @@ import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
 import neuralNets.BackPropagationNeuralNet;
-import neuralNets.ExtendedDeltaBarDeltaNeuralNet;
 import neuralNets.NeuralNet;
+import neuralNets.ResilientPropagationNeuralNet;
 import utils.ArtificialValueGenerator;
 import utils.CSVDispatcher;
 
-/** Основний контроллер-клас */
-public class MainController {
+/** Main Controller, which handle user Interactions*/
+public class AppController {
 
-	@FXML
-	Button trainButton;
-	@FXML
-	Button generateButton;
-	@FXML
-	Button solveButton;
-	@FXML
-	TextArea resultText;
-	@FXML
-	ComboBox<String> neuralNetworkType;
+	@FXML private Button trainButton;
+	@FXML private Button generateButton;
+	@FXML private Button solveButton;
+	@FXML private TextArea resultText;
+	@FXML private ComboBox<String> neuralNetworkType;
 
 	@FXML
 	private TableView<TrainingLayerFeatures> trainingLayersTable;
+	
 	@FXML
 	private TableColumn<TrainingLayerFeatures, Integer> trainingNumbers;
+	
 	@FXML
 	private TableColumn<TrainingLayerFeatures, Double> trainingSponginess;
+	
 	@FXML
 	private TableColumn<TrainingLayerFeatures, Double> trainingAmountOfClay;
+	
 	@FXML
 	private TableColumn<TrainingLayerFeatures, Double> trainingAmountOfCarbonate;
+	
 	@FXML
 	private TableColumn<TrainingLayerFeatures, Integer> trainingType;
+	
 	@FXML
 	private TableColumn<TrainingLayerFeatures, Double> trainingVPAmplitude;
+	
 	private ObservableList<TrainingLayerFeatures> trainingLayersFeatures = FXCollections.observableArrayList();
 
 	@FXML
 	private TableView<RealLayerFeatures> realLayersTable;
+	
 	@FXML
 	private TableColumn<RealLayerFeatures, Integer> realNumbers;
+	
 	@FXML
 	private TableColumn<RealLayerFeatures, Double> realSponginess;
+	
 	@FXML
 	private TableColumn<RealLayerFeatures, Double> realAmountOfClay;
+	
 	@FXML
 	private TableColumn<RealLayerFeatures, Double> realAmountOfCarbonate;
+	
 	@FXML
 	private TableColumn<RealLayerFeatures, Double> realVPAmplitude;
+	
 	private ObservableList<RealLayerFeatures> realLayersFeatures = FXCollections.observableArrayList();
 
-	private Main mainApp; // Посилання на Main-клас
-	private NeuralNet net; // Нейромережа
-
-	/** Ініціалізація форми */
+	private App mainApp;
+	
+	private NeuralNet net;
+	
 	@FXML
 	private void initialize() {
 		net = new BackPropagationNeuralNet();
 
-		// Ініціалізація даних в таблиці
 		initTables();
 
 		trainingLayersTable.setEditable(true);
@@ -107,7 +114,7 @@ public class MainController {
 		trainingLayersTable.setTableMenuButtonVisible(true);
 		realLayersTable.setTableMenuButtonVisible(true);
 
-		// Додати новий рядок, коли натиснута права кнопка миші
+		// Adding new row when right mouse button has been clicked
 		trainingLayersTable.setOnMouseClicked((MouseEvent event) -> {
 			if (event.getButton() == MouseButton.SECONDARY)
 				trainingLayersFeatures.add(new TrainingLayerFeatures());
@@ -118,7 +125,7 @@ public class MainController {
 				realLayersFeatures.add(new RealLayerFeatures());
 		});
 
-		// Видалення виділеного рядка із таблиці
+		// Deleting row from table
 		trainingLayersTable.setOnKeyPressed((Event event) -> {
 			if (((KeyEvent) event).getCode() == KeyCode.BACK_SPACE)
 				trainingLayersFeatures.remove(trainingLayersTable.getSelectionModel().getSelectedIndex());
@@ -129,109 +136,98 @@ public class MainController {
 				realLayersFeatures.remove(realLayersTable.getSelectionModel().getSelectedIndex());
 		});
 
-		// Таблиця тренувальних даних
-		// Додання можливості редагування рядка - номер об'єкта
+		// Training Data table 
+		// Adding ability to Edit row - Object Number
 		trainingNumbers.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("number"));
 		trainingNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		trainingNumbers.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Integer> t) -> {
+		trainingNumbers.setOnEditCommit(t ->
 			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setNumber(t.getNewValue());
-		});
+					.setNumber(t.getNewValue()));
 		
-		// Додання можливості редагування рядка - пористість
+		// Adding ability to Edit row - Sponginess
 		trainingSponginess.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("sponginess"));
 		trainingSponginess.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		trainingSponginess.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+		trainingSponginess.setOnEditCommit(t ->
 			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setSponginess(t.getNewValue());
-		});
+					.setSponginess(t.getNewValue()));
 
-		// Додання можливості редагування рядка - глинистість
+		// Adding ability to Edit row - Amount of Clay
 		trainingAmountOfClay
 				.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfClay"));
 		trainingAmountOfClay.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		trainingAmountOfClay.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+		trainingAmountOfClay.setOnEditCommit(t ->
 			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setAmountOfClay(t.getNewValue());
-		});
+					.setAmountOfClay(t.getNewValue()));
 		
-		// Додання можливості редагування рядка - карбонатність
+		// Adding ability to Edit row - Amount of Carbonate
 		trainingAmountOfCarbonate
 				.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfCarbonate"));
 		trainingAmountOfCarbonate.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		trainingAmountOfCarbonate.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+		trainingAmountOfCarbonate.setOnEditCommit(t ->
 			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setAmountOfCarbonate(t.getNewValue());
-		});
+					.setAmountOfCarbonate(t.getNewValue()));
 
-		// Додання можливості редагування рядка - амплітуда ВП
+		// // Adding ability to Edit row - VP Amplitude
 		trainingVPAmplitude.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("vPAmplitude"));
 		trainingVPAmplitude.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		trainingVPAmplitude.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Double> t) -> {
+		trainingVPAmplitude.setOnEditCommit(t ->
 			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setVPAmplitude(t.getNewValue());
-		});
+					.setVPAmplitude(t.getNewValue()));
 
-		// Додання можливості редагування рядка - тип
+		// // Adding ability to Edit row - Type
 		trainingType.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("type"));
 		trainingType.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		trainingType.setOnEditCommit((CellEditEvent<TrainingLayerFeatures, Integer> t) -> {
+		trainingType.setOnEditCommit(t ->
 			((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setType(t.getNewValue());
-		});
+					.setType(t.getNewValue()));
 
 		trainingLayersTable.setItems(trainingLayersFeatures);
 
-		// Таблиця реальних даних
-		// Додання можливості редагування рядка - номер об'єкта
+		// Real Data Table
+		// Adding ability to Edit row - Number
 		realNumbers.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Integer>("number"));
 		realNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		realNumbers.setOnEditCommit((CellEditEvent<RealLayerFeatures, Integer> t) -> {
+		realNumbers.setOnEditCommit(t ->
 			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setNumber(t.getNewValue());
-		});
+					.setNumber(t.getNewValue()));
 		
-		// Додання можливості редагування рядка - пористість
+		// Adding ability to Edit row - Sponginess
 		realSponginess.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("sponginess"));
 		realSponginess.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		realSponginess.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+		realSponginess.setOnEditCommit(t ->
 			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setSponginess(t.getNewValue());
-		});
+					.setSponginess(t.getNewValue()));
 
-		// Додання можливості редагування рядка - глинистість
+		// Adding ability to Edit row - Amount of clay
 		realAmountOfClay.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfClay"));
 		realAmountOfClay.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		realAmountOfClay.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+		realAmountOfClay.setOnEditCommit(t -> 
 			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setAmountOfClay(t.getNewValue());
-		});
+					.setAmountOfClay(t.getNewValue()));
 		
-		// Додання можливості редагування рядка - карбонатність
+		// Adding ability to Edit row - Amount of carbonate
 		realAmountOfCarbonate
 				.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfCarbonate"));
 		realAmountOfCarbonate.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		realAmountOfCarbonate.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+		realAmountOfCarbonate.setOnEditCommit(t ->
 			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setAmountOfCarbonate(t.getNewValue());
-		});
+					.setAmountOfCarbonate(t.getNewValue()));
 
-		// Додання можливості редагування рядка - амплітуда ВП
+		// Adding ability to Edit row - VP Amplitude
 		realVPAmplitude.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("vPAmplitude"));
 		realVPAmplitude.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		realVPAmplitude.setOnEditCommit((CellEditEvent<RealLayerFeatures, Double> t) -> {
+		realVPAmplitude.setOnEditCommit(t ->
 			((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-					.setVPAmplitude(t.getNewValue());
-		});
+					.setVPAmplitude(t.getNewValue()));
 
 		realLayersTable.setItems(realLayersFeatures);
 
-		// Запис типів нейромереж у combobox
-		neuralNetworkType.getItems().addAll("Back Propagation", "Extended Delta Bar Delta");
+		// Adding neural nets to combobox
+		neuralNetworkType.getItems().addAll("Back Propagation", "Resilient Propagation");
 		neuralNetworkType.setValue("Back Propagation");
 	}
 
-	// Ініціалізація таблиць
+	// Table Initialization
 	private void initTables() {
 		CSVDispatcher.filename = "data_samples/training.csv";
 		CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
@@ -239,16 +235,21 @@ public class MainController {
 		CSVDispatcher.CSVFile2RList(realLayersFeatures);
 	}
 
-	// Ініціалізація основного класу
-	public void setMain(Main mainApp) {
+	/** 
+	 * Main Class Initialization
+	 * @param mainApp
+	 */
+	public void setMain(App mainApp) {
 		this.mainApp = mainApp;
 	}
 
-	// Обробник подій кнопки - тренувати
-	public void train() {
-		resultText.appendText(neuralNetworkType.getValue() + " : Тренування...\n");
+	/**
+	 * Train Button Event Handler
+	 */
+	@FXML public void train() {
+		resultText.appendText(neuralNetworkType.getValue() + " : Training...\n");
 		
-		// Вспливаюче меню опцій тренування нейромережі
+		// Popup menu of neural net training options
 		final Stage options = new Stage();
 		options.initModality(Modality.APPLICATION_MODAL);
 		options.initOwner(mainApp.getStage());
@@ -257,42 +258,48 @@ public class MainController {
 		optionsBox.setAlignment(Pos.CENTER);
 		Button ok = new Button("OK");
 
-		Label learningRateLabel = new Label("Швидкість навчання");
-		Label maxIterationsLabel = new Label("Максимальна кількість ітерацій");
-		Label maxErrorLabel = new Label("Максимально можлива похибка");
+		Label learningRateLabel = new Label("Learning Speed");
+		Label maxIterationsLabel = new Label("Max Iterations");
+		Label maxErrorLabel = new Label("Max Error");
 
-		// Слайдер швидкості навчання 
+		// Learning Speed slider
 		final Slider learningRate = new Slider(0.001, 1.0, 0.001);
 		learningRate.setShowTickLabels(true);
 		learningRate.setShowTickMarks(true);
 		learningRate.setMajorTickUnit(0.1);
 		learningRate.setMinorTickCount(1);
 
-		// Слайдер максимальної к-сті ітерацій
+		// Max Iterations Slider
 		final Slider maxIterations = new Slider(1, 1e4, 100);
 		maxIterations.setShowTickLabels(true);
 		maxIterations.setShowTickMarks(true);
 		maxIterations.setMajorTickUnit(1000);
 		maxIterations.setMinorTickCount(5);
 
-		// Слайдер максильної помилки
+		// Max Error Slider
 		final Slider maxError = new Slider(.001, 1.0, .001);
 		maxError.setShowTickLabels(true);
 		maxError.setShowTickMarks(true);
 		maxError.setMajorTickUnit(0.1);
 		maxError.setMinorTickCount(1);
 
-		// Текстове поле швидкості навчання 
-		TextField learningRateValue = new TextField(String.valueOf(learningRate.getValue()));
-		learningRateValue.textProperty().bindBidirectional(learningRate.valueProperty(), new NumberStringConverter());
+		// learning speed text field data binding
+		TextField learningRateValue = new TextField(
+				String.valueOf(learningRate.getValue()));
+		learningRateValue.textProperty().bindBidirectional(
+				learningRate.valueProperty(), new NumberStringConverter());
 		
-		// Текстове поле максимальної к-сті ітерацій
-		TextField maxIterationsValue = new TextField(String.valueOf(maxIterations.getValue()));
-		maxIterationsValue.textProperty().bindBidirectional(maxIterations.valueProperty(), new NumberStringConverter());
+		// Max Iterations text field data binding
+		TextField maxIterationsValue = new TextField(
+				String.valueOf(maxIterations.getValue()));
+		maxIterationsValue.textProperty().bindBidirectional(
+				maxIterations.valueProperty(), new NumberStringConverter());
 
-		// Текстове поле максимальної похибки
-		TextField maxErrorValue = new TextField(String.valueOf(maxError.getValue()));
-		maxErrorValue.textProperty().bindBidirectional(maxError.valueProperty(), new NumberStringConverter());
+		// Max Error text field data binding
+		TextField maxErrorValue = new TextField(
+				String.valueOf(maxError.getValue()));
+		maxErrorValue.textProperty().bindBidirectional(
+				maxError.valueProperty(), new NumberStringConverter());
 
 		optionsBox.getChildren().add(learningRateLabel);
 		optionsBox.getChildren().add(learningRate);
@@ -314,7 +321,7 @@ public class MainController {
 		options.setScene(optionScene);
 		options.show();
 
-		// Обробник подій кнопки Ok
+		// Ok Button Event Handler
 		ok.setOnAction(e -> {
 			int size = trainingLayersFeatures.size();
 			double[][] inputs = new double[size][4];
@@ -334,19 +341,22 @@ public class MainController {
 				net = new BackPropagationNeuralNet();
 				networkType = "Back Propagation";
 			} else {
-				net = new ExtendedDeltaBarDeltaNeuralNet();
-				networkType = "Extended Delta Bar Delta";
+				net = new ResilientPropagationNeuralNet();
+				networkType = "Resilient Propagation";
 			}
+			
 			String results = net.train(inputs, expected, learningRate.getValue(), maxError.getValue(),
 					Math.round(maxIterations.getValue()));
-			resultText.appendText("\n\n" + networkType + " : тренування успішно завершене:\n");
-			resultText.appendText("похибка = " + results.split(" ")[1]);
-			resultText.appendText("\nна " + results.split(" ")[0] + " ітерації\n\n");
+			
+			resultText.appendText("\n\n" + networkType 
+					+ " : training has been successfully completed:\n");
+			resultText.appendText("error = " + results.split(" ")[1]);
+			resultText.appendText("\non" + results.split(" ")[0] + " iteration\n\n");
 
 			String[] sweights = net.getWeights().split(",");
 			double[] weights = new double[sweights.length];
 
-			resultText.appendText("із такими Вагами:\n\n");
+			resultText.appendText("with weights:\n\n");
 			for (int i = 0; i < weights.length; i++) {
 				weights[i] = Double.parseDouble(sweights[i]);
 				resultText.appendText(String.format("%.4f", weights[i]));
@@ -358,25 +368,25 @@ public class MainController {
 
 			options.close();
 
-			// Графік відношення помилки до ітерації
+			// Error/Iteration Chart
 			List<Integer> iterations = net.getIterations();
 			List<Double> errors = net.getErrors();
 
 			final Stage chartStage = new Stage();
-			chartStage.setTitle("Графік Похибки");
-			// Визначення осей
+			chartStage.setTitle("Error Chart");
+			
 			final NumberAxis xAxis = new NumberAxis();
 			final NumberAxis yAxis = new NumberAxis();
-			xAxis.setLabel("Ітерація");
-			yAxis.setLabel("Похибка");
-			// Створення графіку
+			xAxis.setLabel("Iteration");
+			yAxis.setLabel("Error");
+			
 			final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
 			lineChart.setCreateSymbols(false);
 
-			lineChart.setTitle("Графік похибки для " + networkType);
-			// Визнаяення даних
+			lineChart.setTitle("Error chart for " + networkType);
+			
 			Series<Number, Number> series = new XYChart.Series<>();
-			series.setName("Похибка");
+			series.setName("Error");
 
 			for (int i = 0; i < iterations.size(); i++) {
 				series.getData().add(new XYChart.Data(iterations.get(i), errors.get(i)));
@@ -391,9 +401,11 @@ public class MainController {
 		});
 	}
 
-	// Обробник подій для кнопки - згенерувати
-	public void generate() {
-		// Вспливаюче меню опцій генерування синтетичних даних
+	/** 
+	 * Generate button event handler
+	 */
+	@FXML public void generate() {
+		// Artificial Value Generation pop-up menu
 		final Stage options = new Stage();
 		options.initModality(Modality.APPLICATION_MODAL);
 		options.initOwner(mainApp.getStage());
@@ -401,9 +413,9 @@ public class MainController {
 		optionsBox.setPadding(new Insets(10, 15, 10, 15));
 		Button ok = new Button("OK");
 
-		Label amountOfRowsLable = new Label("Кількість рядків: ");
+		Label amountOfRowsLable = new Label("Amount of row: ");
 
-		// Слайде для генерування синтетичних даних
+		// Artificial Value Generation Slider
 		final Slider amountOfRows = new Slider(1, 500, 1);
 		amountOfRows.setShowTickLabels(true);
 		amountOfRows.setShowTickMarks(true);
@@ -411,7 +423,8 @@ public class MainController {
 		amountOfRows.setMinorTickCount(5);
 
 		TextField amountOfRowsValue = new TextField(String.valueOf(amountOfRows.getValue()));
-		amountOfRowsValue.textProperty().bindBidirectional(amountOfRows.valueProperty(), new NumberStringConverter());
+		amountOfRowsValue.textProperty().bindBidirectional(amountOfRows.valueProperty(), 
+				new NumberStringConverter());
 
 		optionsBox.getChildren().add(amountOfRowsLable);
 		optionsBox.getChildren().add(amountOfRows);
@@ -421,12 +434,12 @@ public class MainController {
 
 		Scene optionScene = new Scene(optionsBox, 550, 60);
 		options.setResizable(false);
-		options.setTitle("Генерація синтетичних даних");
+		options.setTitle("Artificial Value Generation");
 		options.setScene(optionScene);
 		options.show();
-		resultText.appendText("Генерація...\n");
+		resultText.appendText("Generation...\n");
 
-		// Обробник подій для генерації штучних змінних
+		// Artificial Value Generation Event Hanlder
 		ok.setOnAction(e -> {
 			realLayersFeatures.clear();
 			for (int i = 0; i < Math.round(amountOfRows.getValue()); i++) {
@@ -435,16 +448,18 @@ public class MainController {
 				double amountOfCarbonate = ArtificialValueGenerator.getRandom3Sigma();
 				double vPAmplitude = ArtificialValueGenerator.getRandom3Sigma();
 
-				realLayersFeatures
-						.add(new RealLayerFeatures(i+1, sponginess, amountOfClay, amountOfCarbonate, vPAmplitude));
+				realLayersFeatures.add(new RealLayerFeatures(i+1, sponginess, 
+						amountOfClay, amountOfCarbonate, vPAmplitude));
 				options.close();
 			}
 		});
 	}
 
-	// Обробник подій для кнопки - Обчислити
-	public void solve() {
-		resultText.appendText("\nОбчислення\n");
+	/**
+	 * Solve Button event handler
+	 */
+	@FXML public void solve() {
+		resultText.appendText("\nSolving\n");
 		int size = realLayersFeatures.size();
 		double[][] inputs = new double[size][4];
 
@@ -459,37 +474,43 @@ public class MainController {
 		double[] results = new double[inputs.length];
 		results = net.solve(inputs);
 		
-		resultText.appendText("\nРезальтати:\n");
+		resultText.appendText("\nResults:\n");
 		for (int i = 0; i < results.length; i++) {
-			resultText.appendText("\n Об'єкт [" + (i+1) + "] = ");
+			resultText.appendText("\n Object [" + (i+1) + "] = ");
 			if (results[i] < .65)
-				resultText.appendText("Покришка");
+				resultText.appendText("Tire");
 			else 
-				resultText.appendText("Коллектор");
+				resultText.appendText("Collector");
 		}
 	}
 
-	// Меню - Файл
-	// Обробник подій для кнопки - Нові тренувальні дані
-	public void newTrainingData() {
+	// File Menu
+	/** 
+	 * New Training Data Button Event Handler 
+	*/
+	@FXML public void newTrainingData() {
 		trainingLayersTable.getItems().clear();
-		resultText.appendText("\nОчищення тренувальних даних...\n");
+		resultText.appendText("\nTraining Data Clearing...\n");
 	}
 
-	// Обробник подій для кнопки - Завантажити тренувальні дані 
-	public void loadTrainingData() {
+	/**
+	 * Load Training Data Button Event Handler 
+	 */
+	@FXML public void loadTrainingData() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialFileName("training-data.csv");
 		File file = fileChooser.showOpenDialog(mainApp.getStage());
 		if (file == null) return;
-		resultText.appendText("\nЗавантаження тренувальних даних із : " + file.getAbsolutePath() + "\n");
+		resultText.appendText("\nloading training data from : " + file.getAbsolutePath() + "\n");
 		CSVDispatcher.filename = file.getAbsolutePath();
 		trainingLayersFeatures.clear();
 		CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
 	}
 
-	// Обробник подій для кнопки - Зберегти тренувальні дані 
-	public void saveTrainingData() {
+	/**
+	 * Save Training Data Button Event Handler  
+	 */
+	@FXML public void saveTrainingData() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialFileName("training-data.csv");
 		File file = fileChooser.showSaveDialog(mainApp.getStage());
@@ -497,111 +518,136 @@ public class MainController {
 		if (file == null)
 			return;
 
-		resultText.appendText("\nЗбереження тренувальних даних до : " + file.getAbsolutePath() + "\n");
+		resultText.appendText("\nSaving training data to : " + file.getAbsolutePath() + "\n");
 
 		CSVDispatcher.filename = file.getAbsolutePath();
 		CSVDispatcher.list2CSVFile(trainingLayersFeatures);
 	}
 
-	// Обробник подій для кнопки - Нові дані 
-	public void newData() {
+	/**
+	 * New Data Button Event Handler
+	 */
+	@FXML public void newData() {
 		realLayersTable.getItems().clear();
-		resultText.appendText("\nОчищення тренувальних даних...\n");
+		resultText.appendText("\nTraining data clearing...\n");
 	}
 
-	// Обробник подій для кнопки - Завантажити дані
-	public void loadData() {
+	/**
+	 * Load Data Button Event Handler
+	 */
+	@FXML public void loadData() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialFileName("data.csv");
 		File file = fileChooser.showOpenDialog(mainApp.getStage());
 		if (file == null) return;
-		resultText.appendText("\nЗавантаження даних із : " + file.getAbsolutePath() + "\n");
+		resultText.appendText("\nLoading data from : " + file.getAbsolutePath() + "\n");
 		CSVDispatcher.filename = file.getAbsolutePath();
 		realLayersFeatures.clear();
 		CSVDispatcher.CSVFile2RList(realLayersFeatures);
 	}
 
-	// Обробник подій для кнопки - Зберегти дані 
-	public void saveData() {
+	/**
+	 * Save Data Button Event Handler 
+	 */
+	@FXML public void saveData() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialFileName("data.csv");
 		File file = fileChooser.showSaveDialog(mainApp.getStage());
 		if (file == null) return;
-		resultText.appendText("\nЗбереження даних до : " + file.getAbsolutePath() + "\n");
+		resultText.appendText("\nSaving Data to : " + file.getAbsolutePath() + "\n");
 		CSVDispatcher.filename = file.getAbsolutePath();
 		CSVDispatcher.list2CSVFile(realLayersFeatures);
 	}
 
-	// Обробник подій для кнопки - Нові ваги
-	public void newWeights() {
+	/**
+	 * New Weights Button Event Handler
+	 */
+	@FXML public void newWeights() {
 		if (net instanceof BackPropagationNeuralNet)
 			net = new BackPropagationNeuralNet();
-		else if (net instanceof ExtendedDeltaBarDeltaNeuralNet)
-			net = new ExtendedDeltaBarDeltaNeuralNet();
-		resultText.appendText("\nОчищення ваг для  " + net.getClass().getSimpleName() + " \n");
+		else if (net instanceof ResilientPropagationNeuralNet)
+			net = new ResilientPropagationNeuralNet();
+		resultText.appendText("\nWeights clearing for  " + net.getClass().getSimpleName() + " \n");
 	}
 
-	// Обробник подій для кнопки - Завантажити ваги
-	public void loadWeights() {
+	/**
+	 * Load Weights Button Event Handler
+	 */
+	@FXML public void loadWeights() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialFileName("weights.eg");
 		File file = fileChooser.showOpenDialog(mainApp.getStage());
 		if (file == null) return;
 		net.loadWeights(file.getAbsolutePath());
-		resultText.appendText("\nЗавантаження ваг із: " + file.getAbsolutePath() + "\n");
+		resultText.appendText("\nLoading Data from: " + file.getAbsolutePath() + "\n");
 	}
 
-	// Обробник подій для кнопки - Зберегти ваги
-	public void saveWeights() {
+	/**
+	 * Save Weights Button Event Handler
+	 */
+	@FXML public void saveWeights() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setInitialFileName("weights.eg");
 		File file = fileChooser.showSaveDialog(mainApp.getStage());
 		if (file == null) return;
 		net.saveWeights(file.getAbsolutePath());
-		resultText.appendText("\nЗбереження ваг до: " + file.getAbsolutePath() + "\n");
+		resultText.appendText("\nSaving weights to : " + file.getAbsolutePath() + "\n");
 	}
 
-	// Обробник подій для кнопки - Вихід
-	public void exit() {
+	/**
+	 * Exit Button Event Handler
+	 */
+	@FXML public void exit() {
 		Platform.exit();
 	}
 
-	// Обробник подій для кнопки - Очистити результати
-	public void clearResults() {
+	/**
+	 * Clear Results Button Event Handler
+	 */
+	@FXML public void clearResults() {
 		resultText.clear();
 	}
 
-	// Меню допомога
-	// Обробник подій для кнопки - Про додаток
-	public void about() {
-		final Stage dialog = new Stage();
-		dialog.initModality(Modality.APPLICATION_MODAL);
-		dialog.initOwner(mainApp.getStage());
-		VBox dialogVbox = new VBox(20);
-		TextArea text = new TextArea("Додаток реалізує нейромережі\n" + "BackPropagation\nта Extended Delta Bar Delta\n"
-				+ "Видобуток знань на основі набору\n" + "даних для визначення типу\n"
-				+ "nпласта (коллектор, покришка)\n\n" + "Розробник: ст. групи ПІ-13-2\nСакайлюк Ігор Миколайович");
-		text.setEditable(false);
-		dialogVbox.getChildren().add(text);
-		Scene dialogScene = new Scene(dialogVbox, 250, 180);
-		dialog.setTitle("Neural Net Classifier v1.0");
-		dialog.setScene(dialogScene);
-		dialog.show();
+	// Help Menu
+	/**
+	 * About Menu Item Event Handler
+	 */
+	@FXML public void about() {
+		final Stage about = new Stage();
+		about.initModality(Modality.APPLICATION_MODAL);
+		about.initOwner(mainApp.getStage());
+		VBox box= null;
+		try {
+			box = FXMLLoader.load(getClass().getResource("about.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(box);
+		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		
+		about.setTitle("About");
+		about.setScene(scene);
+		about.show();
 	}
 
-	// Обробник подій для кнопки - Швидкі клавіші
-	public void hotkeys() {
-		final Stage dialog = new Stage();
-		dialog.initModality(Modality.APPLICATION_MODAL);
-		dialog.initOwner(mainApp.getStage());
-		VBox dialogVbox = new VBox(20);
-		TextArea text = new TextArea("Додати новий рядок в таблицю \n\t-> [права кнопка миші]\n\n"
-				+ "Видалити рядок із таблиці \n\t-> [backspace]");
-		text.setEditable(false);
-		dialogVbox.getChildren().add(text);
-		Scene dialogScene = new Scene(dialogVbox, 250, 150);
-		dialog.setTitle("Швидкі клавіші");
-		dialog.setScene(dialogScene);
-		dialog.show();
+	/**
+	 * Shortcuts Menu Item Event Handler
+	 */
+	@FXML public void hotkeys() {
+		final Stage shortcuts = new Stage();
+		shortcuts.initModality(Modality.APPLICATION_MODAL);
+		shortcuts.initOwner(mainApp.getStage());
+		VBox box = null;
+		try {
+			box = FXMLLoader.load(getClass().getResource("shortcuts.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Scene scene = new Scene(box);
+		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+		
+		shortcuts.setTitle("Shortcuts");
+		shortcuts.setScene(scene);
+		shortcuts.show();
 	}
 }

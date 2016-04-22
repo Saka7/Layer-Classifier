@@ -12,15 +12,19 @@ import beans.RealLayerFeatures;
 import beans.TrainingLayerFeatures;
 import javafx.collections.ObservableList;
 
-/** Клас для запису в CSV-файли та парсингу 
- * ObservableList-ів
+/** 
+ * Class for parsing Observable Lists to CSV data format
  */
 public class CSVDispatcher {
-	public static String filename; // Назва файлу
+	public static String filename;
 
-	/** Запис даних в CSV-файл */
+	/** 
+	 * Writes data to CSV file
+	 * @param list - data 
+	*/
 	public static <T> void list2CSVFile(ObservableList<T> list) {
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"))) {
+		try (Writer writer = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(filename), "utf-8"))) {
 			for (T item : list)
 				writer.write(item.toString());
 		} catch (Exception e) {
@@ -28,8 +32,11 @@ public class CSVDispatcher {
 		}
 	}
 
-	/** Зчитування даних із CSV-файлу 
-	 * і парсинг до типу кортежу таблиці - Реальні дані */
+	/** 
+	 * Reading data from CSV file
+	 * and parsing to Real table rows
+	 * @param list - data
+	 */
 	public static void CSVFile2RList(ObservableList<RealLayerFeatures> list) {
 		try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
 		    String line = br.readLine();
@@ -52,8 +59,11 @@ public class CSVDispatcher {
 		} 
 	}
 
-	/** Зчитування даних із CSV-файлу 
-	 * і парсинг до типу кортежу таблиці - Тренуваліні дані */
+	/** 
+	 * Reading data from CSV file
+	 * and parsing to Training table rows
+	 * @param list - data
+	 */
 	public static void CSVFile2TList(ObservableList<TrainingLayerFeatures> list) {
 		try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
 		    String line = br.readLine();

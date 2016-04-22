@@ -16,15 +16,15 @@ import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.persist.EncogDirectoryPersistence;
 
-/** Нейромережа BackPropagation*/
+/** BackPropagation Neural Net Learning Algorithm */
 public class BackPropagationNeuralNet implements NeuralNet {
 
-	protected BasicNetwork network; // Нейромережа
-	protected MLDataSet trainingSet; // Набір даних
-	private Backpropagation train; // Алгоритм тренування
-	protected List<Integer> iterations; // Список ітерацій
-	protected List<Double> errors; // Список помилок
-	protected double learningRate; // Швидкість навчання
+	protected BasicNetwork network;
+	protected MLDataSet trainingSet;
+	private Backpropagation train; 
+	protected List<Integer> iterations; 
+	protected List<Double> errors; 
+	protected double learningRate;
 
 	@Override /** {@inheritDoc} */
 	public void saveWeights(String filename) {
@@ -38,7 +38,7 @@ public class BackPropagationNeuralNet implements NeuralNet {
 		network = (BasicNetwork) EncogDirectoryPersistence.loadObject(new File(filename));
 	}
 	
-	/** Конструктор для ініціалізації структури	нейромережі*/
+	/** Neural Network structure initialization */
 	public BackPropagationNeuralNet() {
 		iterations = new ArrayList<>();
 		errors = new ArrayList<>();
@@ -52,7 +52,10 @@ public class BackPropagationNeuralNet implements NeuralNet {
 		new ConsistentRandomizer(-1, 1, 500).randomize(network);
 	}
 
-	/** Конструктор для завантаження параметрів нейромережі із файлу */
+	/** 
+	 * Loading neural network parameters initialization from file
+	 * @param filename 
+	*/
 	public BackPropagationNeuralNet(String filename) {
 		this();
 		loadWeights(filename);

@@ -12,13 +12,13 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
 
-/** Нейромережа Extended Delta Bar Delta */
-public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet implements NeuralNet {
+/** Resilient Propagation Neural Network learning algorithm */
+public class ResilientPropagationNeuralNet extends BackPropagationNeuralNet implements NeuralNet {
 
-	private ResilientPropagation train; // Алгоритм навчання
+	private ResilientPropagation train;
 
-	/** Конструктор для ініціалізації структури	нейромережі*/
-	public ExtendedDeltaBarDeltaNeuralNet() {
+	/** Neural Network structure initialization */
+	public ResilientPropagationNeuralNet() {
 		iterations = new ArrayList<>();
 		errors = new ArrayList<>();
 		network = new BasicNetwork();
@@ -30,12 +30,15 @@ public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet imp
 		new ConsistentRandomizer(-1, 1, 500).randomize(network);
 	}
 
-	/** Конструктор для завантаження параметрів нейромережі із файлу */
-	public ExtendedDeltaBarDeltaNeuralNet(String filename) {
+	/**
+	 *  Loading neural network parameters initialization from file 
+	 * @param filename
+	*/
+	public ResilientPropagationNeuralNet(String filename) {
 		this();
 		loadWeights(filename);
 	}
-	
+
 	/** {@inheritDoc} */
 	public String train(final double[][] inputs, final double[][] expected, double learningRate, double maxError,
 			long maxIterations) {
@@ -50,7 +53,8 @@ public class ExtendedDeltaBarDeltaNeuralNet extends BackPropagationNeuralNet imp
 			train.iteration();
 			errors.add(new Double(train.getError()));
 			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
-			if (epoch++ > maxIterations) break;
+			if (epoch++ > maxIterations)
+				break;
 		} while (train.getError() > maxError);
 		return new String(epoch + " " + train.getError());
 	}

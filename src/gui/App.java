@@ -3,13 +3,14 @@ package gui;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * Main-клас, для підвантаження структури та стилів і запуску додатку
+ * Main class, which launch the application
  */
-public class Main extends Application {
+public class App extends Application {
 
 	private Stage primaryStage = new Stage();
 	private VBox rootPane;
@@ -21,18 +22,15 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			// Завантаження розташування із FXML-файлу
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("neural-nets-main.fxml"));
+			loader.setLocation(getClass().getResource("main-layout.fxml"));
 			rootPane = (VBox) loader.load();
 			
-			// Завантаження основного контроллера
-			MainController controller = loader.getController();
+			AppController controller = loader.getController();
 			controller.setMain(this);
 			
 			Scene scene = new Scene(rootPane);
-			// Завантаження стилів
-			scene.getStylesheets().add(getClass().getResource("main.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);

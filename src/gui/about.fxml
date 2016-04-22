@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Neural Net Classifier">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="55.0" top="5.0" />
+         </VBox.margin>
+      </Label>
+      <ImageView fitHeight="149.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true">
+         <VBox.margin>
+            <Insets left="75.0" top="10.0" />
+         </VBox.margin>
+         <image>
+            <Image url="@../../logo.png" />
+         </image>
+      </ImageView>
+      <TextFlow prefHeight="149.0" prefWidth="300.0" textAlignment="JUSTIFY">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Application for separating tire from collectors using emphirical data. App uses Back Propagation and Resilient Propagation Neural Network Learning Algorithm and 3 sigma rule for artificial value generation." textAlignment="JUSTIFY">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </TextFlow>
+      <Hyperlink text="github.com/Saka7/Neural-Net-Classifier">
+         <VBox.margin>
+            <Insets left="18.0" />
+         </VBox.margin>
+      </Hyperlink>
+      <Label text="Developer: Ihor Sakaylyuk 2016">
+         <VBox.margin>
+            <Insets left="50.0" top="10.0" />
+         </VBox.margin>
+      </Label>
+   </children>
+</VBox>

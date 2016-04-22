@@ -2,19 +2,17 @@ package utils;
 
 import java.util.Random;
 
-/** Реалізація методу генерації штучних змінних за правилом 3 сігма */
+/** 3 sigma artificial values generation */
 public class ArtificialValueGenerator {
 	
 	/**
-	 * Генерація штучних змінних за правилом 3-ох сігма
-	 * @return - псевдовипадкове число 
+	 * 3 sigma artificial values generation
+	 * @return - pseudo random number
 	 */
 	public static double getRandom3Sigma() {
 		Random rand = new Random();
 		double sum = 0;
 		
-		/* Сумування 20-ти випадкових чисел із нормального розподілу
-		   медіана = 0.7; дисперсія = 1.1 */
 		for (int i = 0; i < 20; i++)
 			sum += rand.nextGaussian() * 1.1 + .7;
 		
