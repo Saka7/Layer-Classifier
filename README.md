@@ -44,3 +44,6 @@ You can write real data by hand or generate artificial values to test neural net
 When you press solve button neural net classifies layers on tire or collector (Don't forget to train neural net before run classification).
 
 ![Classifying](/screenshots/classifying.png)
+
+## License
+SQLibri is released under the [MIT License](https://opensource.org/licenses/MIT).
