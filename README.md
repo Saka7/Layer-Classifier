@@ -46,4 +46,4 @@ When you press solve button neural net classifies layers on tire or collector (D
 ![Classifying](/screenshots/classifying.png)
 
 ## License
-SQLibri is released under the [MIT License](https://opensource.org/licenses/MIT).
+Neural-Net-Classifier is released under the [MIT License](https://opensource.org/licenses/MIT).
