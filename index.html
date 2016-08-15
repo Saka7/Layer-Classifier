@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Layer-classifier by Saka7</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Layer-classifier</h1>
+      <h2 class="project-tagline">App for determining the type of layer using neural network leaning algorithms</h2>
+      <a href="https://github.com/Saka7/Layer-Classifier" class="btn">View on GitHub</a>
+      <a href="https://github.com/Saka7/Layer-Classifier/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Saka7/Layer-Classifier/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><img src="https://raw.githubusercontent.com/Saka7/Layer-Classifier/master/src/edu/lc/resources/logo.png" alt="Layer-Classifier Logo"></p>
+
+<h1>
+<a id="layer-classifier" class="anchor" href="#layer-classifier" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Layer-Classifier</h1>
+
+<hr>
+
+<p>App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using <strong>Back Propagation</strong> and <strong>Resilient Propagation</strong> Neural Nets Learning Algorithms.</p>
+
+<h2>
+<a id="build-and-run" class="anchor" href="#build-and-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build and Run</h2>
+
+<p>To build this application you need gradle build tool
+<a href="http://gradle.org/gradle-download/">Download Gradle</a>
+To run this application you need Java SE 1.8.0_40+
+<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Download Java</a></p>
+
+<p>Navigate to project parent folder and run: </p>
+
+<div class="highlight highlight-source-shell"><pre>gradle build</pre></div>
+
+<p>To build the project. And</p>
+
+<div class="highlight highlight-source-shell"><pre> java -jar build/libs/Layer-Classifier[version].jar</pre></div>
+
+<p>To run it.</p>
+
+<h2>
+<a id="main-window" class="anchor" href="#main-window" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Main Window</h2>
+
+<p>Main window contains two tables with real and training data, selectbox with neural net types and text area for results logging.
+To start training you should first fill training data table.</p>
+
+<p><img src="https://raw.githubusercontent.com/Saka7/Layer-Classifier/master/screenshots/main-window.png" alt="Main Window"></p>
+
+<h2>
+<a id="training-settings" class="anchor" href="#training-settings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Training Settings</h2>
+
+<p>When you click on train button - training settings popup menu shows up. In this menu you can customize learning speed, max iterations and max available error of neural net.</p>
+
+<p><img src="https://raw.githubusercontent.com/Saka7/Layer-Classifier/master/screenshots/training-settings.png" alt="Training Settings"></p>
+
+<h2>
+<a id="error-decreasing-graphs" class="anchor" href="#error-decreasing-graphs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Error decreasing Graphs</h2>
+
+<p>After training, error decreasing chart shows up. This chart represent value of error on each iteration.</p>
+
+<p><img src="https://raw.githubusercontent.com/Saka7/Layer-Classifier/master/screenshots/charts.png" alt="Charts"></p>
+
+<h2>
+<a id="artificial-value-generation" class="anchor" href="#artificial-value-generation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Artificial Value Generation</h2>
+
+<p>You can write real data by hand or generate artificial values to test neural net. To generate artificial values just click on generate button and then write amount of rows which should be generated.</p>
+
+<p><img src="https://raw.githubusercontent.com/Saka7/Layer-Classifier/master/screenshots/avg.png" alt="AVG"></p>
+
+<h2>
+<a id="classifying" class="anchor" href="#classifying" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Classifying</h2>
+
+<p>When you press solve button neural net classifies layers on tire or collector (Don't forget to train neural net before run classification).</p>
+
+<p><img src="https://raw.githubusercontent.com/Saka7/Layer-Classifier/master/screenshots/classifying.png" alt="Classifying"></p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>Layer-Classifier is released under the <a href="https://opensource.org/licenses/MIT">MIT License</a>.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Saka7/Layer-Classifier">Layer-classifier</a> is maintained by <a href="https://github.com/Saka7">Saka7</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
