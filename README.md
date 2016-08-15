@@ -1,7 +1,7 @@
-![Layer-Classifier Logo](src/edu/nnc/resources/logo.png)
+![Layer-Classifier Logo](src/edu/lc/resources/logo.png)
 # Layer-Classifier
 ------
- App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using **Back Propagation** and **Resilient Propagation** Neural Nets Learning Algorithms
+ App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using **Back Propagation** and **Resilient Propagation** Neural Nets Learning Algorithms.
 
 ## Build and Run
 To build this application you need gradle build tool
