@@ -1,12 +1,17 @@
-package edu.nnc.controller;
+package edu.lc.controller;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import edu.nnc.App;
-import edu.nnc.beans.RealLayerFeatures;
-import edu.nnc.beans.TrainingLayerFeatures;
+import edu.lc.App;
+import edu.lc.beans.RealLayerFeatures;
+import edu.lc.beans.TrainingLayerFeatures;
+import edu.lc.neuralNets.BackPropagationNeuralNet;
+import edu.lc.neuralNets.NeuralNet;
+import edu.lc.neuralNets.ResilientPropagationNeuralNet;
+import edu.lc.utils.ArtificialValueGenerator;
+import edu.lc.utils.CSVDispatcher;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,11 +47,6 @@ import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
-import edu.nnc.neuralNets.BackPropagationNeuralNet;
-import edu.nnc.neuralNets.NeuralNet;
-import edu.nnc.neuralNets.ResilientPropagationNeuralNet;
-import edu.nnc.utils.ArtificialValueGenerator;
-import edu.nnc.utils.CSVDispatcher;
 
 /** Main Controller, which handle user Interactions*/
 public class AppController {

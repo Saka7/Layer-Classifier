@@ -3,7 +3,7 @@ apply plugin: 'eclipse'
 
 sourceCompatibility = 1.8
 version = "0.3.0"
-def mainClass = "edu.nnc.App"
+def mainClass = "edu.lc.App"
 
 repositories {
 	mavenCentral();

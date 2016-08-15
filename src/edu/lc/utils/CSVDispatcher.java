@@ -1,4 +1,4 @@
-package edu.nnc.utils;
+package edu.lc.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import edu.nnc.beans.RealLayerFeatures;
-import edu.nnc.beans.TrainingLayerFeatures;
+import edu.lc.beans.RealLayerFeatures;
+import edu.lc.beans.TrainingLayerFeatures;
 import javafx.collections.ObservableList;
 
 /** 

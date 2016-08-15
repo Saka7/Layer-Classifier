@@ -1,5 +1,5 @@
-![Neural-Net-Classifier Logo](src/edu/nnc/resources/logo.png)
-# Neural-Net-Classifier
+![Layer-Classifier Logo](src/edu/nnc/resources/logo.png)
+# Layer-Classifier
 ------
  App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using **Back Propagation** and **Resilient Propagation** Neural Nets Learning Algorithms
 
@@ -15,7 +15,7 @@ gradle build
 ```
 To build the project. And
 ``` Bash
- java -jar build/libs/Neural-Net-Classifier[version].jar
+ java -jar build/libs/Layer-Classifier[version].jar
 ```
 To run it.
 
@@ -46,4 +46,4 @@ When you press solve button neural net classifies layers on tire or collector (D
 ![Classifying](/screenshots/classifying.png)
 
 ## License
-Neural-Net-Classifier is released under the [MIT License](https://opensource.org/licenses/MIT).
+Layer-Classifier is released under the [MIT License](https://opensource.org/licenses/MIT).

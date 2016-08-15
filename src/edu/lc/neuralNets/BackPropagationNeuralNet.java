@@ -1,4 +1,4 @@
-package edu.nnc.neuralNets;
+package edu.lc.neuralNets;
 
 import java.io.File;
 import java.util.ArrayList;

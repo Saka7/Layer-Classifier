@@ -1,6 +1,6 @@
-package edu.nnc;
+package edu.lc;
 
-import edu.nnc.controller.AppController;
+import edu.lc.controller.AppController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,7 +37,7 @@ public class App extends Application {
 
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
-			primaryStage.setTitle("Neural Net Classifier");
+			primaryStage.setTitle("Layer Classifier");
 			primaryStage.getIcons().add(LOGO);
 			primaryStage.show();
 

@@ -1,4 +1,4 @@
-package edu.nnc.beans;
+package edu.lc.beans;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
