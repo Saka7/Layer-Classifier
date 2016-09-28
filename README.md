@@ -1,32 +1,21 @@
 ![Layer-Classifier Logo](src/edu/lc/resources/logo.png)
 # Layer-Classifier
 ------
- App for extraction of knowledge from the data set to determine the type of layer (collector, tire) using **Back Propagation** and **Resilient Propagation** Neural Nets Learning Algorithms.
+ App for layer classification(collector, tire) using **Back Propagation** and **Resilient Propagation** Neural Nets.
 
-## Build and Run
-To build this application you need gradle build tool
-[Download Gradle](http://gradle.org/gradle-download/)
-To run this application you need Java SE 1.8.0_40+
+# Build and run
+Navigate to project parent folder and run `./gradlew build` on Unix-based OS or `gradle.bat build` on Windows to build the project, then `java -jar build/libs/Layer-Classifier-[version].jar` to run it.
+> Note: To run this application you need Java SE 1.8.0_40+
 [Download Java](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
-Navigate to project parent folder and run: 
-``` Bash 
-gradle build
-```
-To build the project. And
-``` Bash
- java -jar build/libs/Layer-Classifier[version].jar
-```
-To run it.
-
 ## Main Window
-Main window contains two tables with real and training data, selectbox with neural net types and text area for results logging.
-To start training you should first fill training data table.
+Main window contains two tables with real and training data, select-box with neural net types and text area for results logging.
+To start training you should first fill out training data table.
 
 ![Main Window](/screenshots/main-window.png)
 
 ## Training Settings
-When you click on train button - training settings popup menu shows up. In this menu you can customize learning speed, max iterations and max available error of neural net.
+When you click on train button - training settings pop-up menu shows up. In this menu you can customize learning speed, max iterations and max available error of neural net.
 
 ![Training Settings](/screenshots/training-settings.png)
 
@@ -45,5 +34,5 @@ When you press solve button neural net classifies layers on tire or collector (D
 
 ![Classifying](/screenshots/classifying.png)
 
-## License
+# License
 Layer-Classifier is released under the [MIT License](https://opensource.org/licenses/MIT).
