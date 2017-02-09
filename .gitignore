@@ -1,10 +1,10 @@
 
-/build
-/.gradle
-/.settings
-/.metadata
-/bin
+build
+.gradle
+gradle
+.settings
+.metadata
+bin
 .project
-*.csv
-
+gradlew*
 

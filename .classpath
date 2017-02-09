@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry path="src" kind="src"/>
-	<classpathentry path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER" kind="con"/>
-	<classpathentry path="bin" kind="output"/>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/" kind="con"/>
-	<classpathentry path="/home/saka/.gradle/caches/modules-2/files-2.1/org.encog/encog-core/3.0.1/1ccaa42de20dab593f77be7e6215fa5530c2b15d/encog-core-3.0.1.jar" kind="lib" sourcepath="/home/saka/.gradle/caches/modules-2/files-2.1/org.encog/encog-core/3.0.1/d33a7a618157b5d48980901314b7397e33460778/encog-core-3.0.1-sources.jar"/>
-</classpath>

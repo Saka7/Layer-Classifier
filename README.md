@@ -4,9 +4,10 @@
  App for layer classification(collector, tire) using **Back Propagation** and **Resilient Propagation** Neural Nets.
 
 # Build and run
-Navigate to project parent folder and run `./gradlew build` on Unix-based OS or `gradle.bat build` on Windows to build the project, then `java -jar build/libs/Layer-Classifier-[version].jar` to run it.
-> Note: To run this application you need Java SE 1.8.0_40+
-[Download Java](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- Navigate to project parent folder and run `gradle build` to build the project 
+- Then `gradle run` or `java -jar build/libs/sqlibri-[version].jar` to run it
+
+> Note: To run this application you need [Java SE 1.8.0_40+](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Gradle 2+](https://gradle.org/install)
 
 ## Main Window
 Main window contains two tables with real and training data, select-box with neural net types and text area for results logging.
