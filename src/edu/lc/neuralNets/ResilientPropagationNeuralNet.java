@@ -15,60 +15,60 @@ import org.encog.neural.networks.training.propagation.resilient.ResilientPropaga
 /** Resilient Propagation Neural Network learning algorithm */
 public class ResilientPropagationNeuralNet extends BackPropagationNeuralNet implements NeuralNet {
 
-	private ResilientPropagation train;
+  private ResilientPropagation train;
 
-	/** Neural Network structure initialization */
-	public ResilientPropagationNeuralNet() {
-		iterations = new ArrayList<>();
-		errors = new ArrayList<>();
-		network = new BasicNetwork();
-		network.addLayer(new BasicLayer(null, true, 4));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 10));
-		network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
-		network.getStructure().finalizeStructure();
-		network.reset();
-		new ConsistentRandomizer(-1, 1, 500).randomize(network);
-	}
+  /** Neural Network structure initialization */
+  public ResilientPropagationNeuralNet() {
+    iterations = new ArrayList<>();
+    errors = new ArrayList<>();
+    network = new BasicNetwork();
+    network.addLayer(new BasicLayer(null, true, 4));
+    network.addLayer(new BasicLayer(new ActivationSigmoid(), true, 10));
+    network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
+    network.getStructure().finalizeStructure();
+    network.reset();
+    new ConsistentRandomizer(-1, 1, 500).randomize(network);
+  }
 
-	/**
-	 *  Loading neural network parameters initialization from file 
-	 * @param filename
-	*/
-	public ResilientPropagationNeuralNet(String filename) {
-		this();
-		loadWeights(filename);
-	}
+  /**
+   *  Loading neural network parameters initialization from file 
+   * @param filename
+  */
+  public ResilientPropagationNeuralNet(String filename) {
+    this();
+    loadWeights(filename);
+  }
 
-	/** {@inheritDoc} */
-	public String train(final double[][] inputs, final double[][] expected, double learningRate, double maxError,
-			long maxIterations) {
+  /** {@inheritDoc} */
+  public String train(final double[][] inputs, final double[][] expected, double learningRate, double maxError,
+      long maxIterations) {
 
-		this.learningRate = learningRate;
-		trainingSet = new BasicMLDataSet(inputs, expected);
-		train = new ResilientPropagation(network, trainingSet, this.learningRate, 0.3);
-		train.fixFlatSpot(false);
-		int epoch = 0;
-		do {
-			iterations.add(new Integer(epoch));
-			train.iteration();
-			errors.add(new Double(train.getError()));
-			System.out.println("Epoch #" + epoch + " Error:" + train.getError());
-			if (epoch++ > maxIterations)
-				break;
-		} while (train.getError() > maxError);
-		return new String(epoch + " " + train.getError());
-	}
+    this.learningRate = learningRate;
+    trainingSet = new BasicMLDataSet(inputs, expected);
+    train = new ResilientPropagation(network, trainingSet, this.learningRate, 0.3);
+    train.fixFlatSpot(false);
+    int epoch = 0;
+    do {
+      iterations.add(new Integer(epoch));
+      train.iteration();
+      errors.add(new Double(train.getError()));
+      System.out.println("Epoch #" + epoch + " Error:" + train.getError());
+      if (epoch++ > maxIterations)
+        break;
+    } while (train.getError() > maxError);
+    return new String(epoch + " " + train.getError());
+  }
 
-	/** {@inheritDoc} */
-	public double[] solve(final double[][] inputs) {
-		double[] results = new double[inputs.length];
-		trainingSet = new BasicMLDataSet(inputs, null);
-		int i = 0;
-		for (MLDataPair pair : trainingSet) {
-			final MLData output = network.compute(pair.getInput());
-			results[i++] = output.getData(0);
-		}
-		Encog.getInstance().shutdown();
-		return results;
-	}
+  /** {@inheritDoc} */
+  public double[] solve(final double[][] inputs) {
+    double[] results = new double[inputs.length];
+    trainingSet = new BasicMLDataSet(inputs, null);
+    int i = 0;
+    for (MLDataPair pair : trainingSet) {
+      final MLData output = network.compute(pair.getInput());
+      results[i++] = output.getData(0);
+    }
+    Encog.getInstance().shutdown();
+    return results;
+  }
 }
