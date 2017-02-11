@@ -254,21 +254,25 @@ public class AppController {
     Label maxErrorLabel = new Label("Max Error");
 
     // Learning Speed slider
-    final Slider learningRate = new Slider(0.001, 1.0, 0.001);
+    final Slider learningRate = new Slider(0, 1.0, 0.001);
     learningRate.setShowTickLabels(true);
     learningRate.setShowTickMarks(true);
     learningRate.setMajorTickUnit(0.1);
     learningRate.setMinorTickCount(1);
 
     // Max Iterations Slider
-    final Slider maxIterations = new Slider(1, 1e4, 100);
+    final Slider maxIterations = new Slider(0, 1e4, 100);
+    maxIterations
+        .valueProperty()
+        .addListener((obs, oldVal, newVal) -> maxIterations.setValue(newVal.intValue()));
+
     maxIterations.setShowTickLabels(true);
     maxIterations.setShowTickMarks(true);
     maxIterations.setMajorTickUnit(1000);
     maxIterations.setMinorTickCount(5);
 
     // Max Error Slider
-    final Slider maxError = new Slider(.001, 1.0, .001);
+    final Slider maxError = new Slider(0, 1.0, 0.001);
     maxError.setShowTickLabels(true);
     maxError.setShowTickMarks(true);
     maxError.setMajorTickUnit(0.1);
@@ -404,10 +408,13 @@ public class AppController {
     optionsBox.setPadding(new Insets(10, 15, 10, 15));
     Button ok = new Button("OK");
 
-    Label amountOfRowsLable = new Label("Amount of row: ");
+    Label amountOfRowsLabel = new Label("Amount of row: ");
 
     // Artificial Value Generation Slider
-    final Slider amountOfRows = new Slider(1, 500, 1);
+    final Slider amountOfRows = new Slider(0, 500, 1);
+    amountOfRows
+        .valueProperty()
+        .addListener((obs, oldVal, newVal) -> amountOfRows.setValue(newVal.intValue()));
     amountOfRows.setShowTickLabels(true);
     amountOfRows.setShowTickMarks(true);
     amountOfRows.setMajorTickUnit(50);
@@ -417,20 +424,20 @@ public class AppController {
     amountOfRowsValue.textProperty().bindBidirectional(amountOfRows.valueProperty(), 
         new NumberStringConverter());
 
-    optionsBox.getChildren().add(amountOfRowsLable);
+    optionsBox.getChildren().add(amountOfRowsLabel);
     optionsBox.getChildren().add(amountOfRows);
     optionsBox.getChildren().add(amountOfRowsValue);
 
     optionsBox.getChildren().add(ok);
 
-    Scene optionScene = new Scene(optionsBox, 550, 60);
+    Scene optionScene = new Scene(optionsBox, 600, 60);
     options.setResizable(false);
     options.setTitle("Artificial Value Generation");
     options.setScene(optionScene);
     options.show();
     resultText.appendText("Generation...\n");
 
-    // Artificial Value Generation Event Hanlder
+    // Artificial Value Generation Event Handler
     ok.setOnAction(e -> {
       realLayersFeatures.clear();
       for (int i = 0; i < Math.round(amountOfRows.getValue()); i++) {
