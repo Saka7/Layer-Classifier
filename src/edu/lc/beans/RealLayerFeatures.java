@@ -3,7 +3,7 @@ package edu.lc.beans;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-/** Table Real Data  */
+/** Real Data Table */
 public class RealLayerFeatures {
 
   protected SimpleIntegerProperty number;
@@ -16,8 +16,8 @@ public class RealLayerFeatures {
     this(0, 0.0, 0.0, 0.0, 0.0);
   }
 
-  public RealLayerFeatures(int number, double sponginess, double amountOfClay, double amountOfCarbonate,
-      double vPAmplitude) {
+  public RealLayerFeatures(int number, double sponginess, double
+      amountOfClay, double amountOfCarbonate, double vPAmplitude) {
     this.number = new SimpleIntegerProperty(number);
     this.sponginess = new SimpleDoubleProperty(sponginess);
     this.amountOfCarbonate = new SimpleDoubleProperty(amountOfCarbonate);
@@ -87,7 +87,8 @@ public class RealLayerFeatures {
 
   @Override
   public String toString() {
-    return String.format("%d,%f,%f,%f,%f\n", getNumber(), getSponginess(), getAmountOfClay(),
+    return String.format("%d,%f,%f,%f,%f\n",
+        getNumber(), getSponginess(), getAmountOfClay(),
         getAmountOfCarbonate(), getVPAmplitude());
   }
 }

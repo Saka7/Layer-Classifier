@@ -1,9 +1,5 @@
 package edu.lc.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import edu.lc.App;
 import edu.lc.beans.RealLayerFeatures;
 import edu.lc.beans.TrainingLayerFeatures;
@@ -25,14 +21,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
@@ -47,6 +36,10 @@ import javafx.stage.Stage;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 /** Main Controller, which handle user Interactions*/
 public class AppController {
@@ -139,91 +132,88 @@ public class AppController {
 
     // Training Data table 
     // Adding ability to Edit row - Object Number
-    trainingNumbers.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("number"));
+    trainingNumbers.setCellValueFactory(new PropertyValueFactory<>("number"));
     trainingNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    trainingNumbers.setOnEditCommit(t ->
-      ((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    trainingNumbers.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setNumber(t.getNewValue()));
     
     // Adding ability to Edit row - Sponginess
-    trainingSponginess.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("sponginess"));
+    trainingSponginess.setCellValueFactory(new PropertyValueFactory<>("sponginess"));
     trainingSponginess.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    trainingSponginess.setOnEditCommit(t ->
-      ((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    trainingSponginess.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setSponginess(t.getNewValue()));
 
     // Adding ability to Edit row - Amount of Clay
-    trainingAmountOfClay
-        .setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfClay"));
+    trainingAmountOfClay.setCellValueFactory(new PropertyValueFactory<>("amountOfClay"));
     trainingAmountOfClay.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    trainingAmountOfClay.setOnEditCommit(t ->
-      ((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    trainingAmountOfClay.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setAmountOfClay(t.getNewValue()));
     
     // Adding ability to Edit row - Amount of Carbonate
-    trainingAmountOfCarbonate
-        .setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("amountOfCarbonate"));
+    trainingAmountOfCarbonate.setCellValueFactory(new PropertyValueFactory<>("amountOfCarbonate"));
     trainingAmountOfCarbonate.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    trainingAmountOfCarbonate.setOnEditCommit(t ->
-      ((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    trainingAmountOfCarbonate.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setAmountOfCarbonate(t.getNewValue()));
 
     // // Adding ability to Edit row - VP Amplitude
-    trainingVPAmplitude.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Double>("vPAmplitude"));
+    trainingVPAmplitude.setCellValueFactory(new PropertyValueFactory<>("vPAmplitude"));
     trainingVPAmplitude.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    trainingVPAmplitude.setOnEditCommit(t ->
-      ((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    trainingVPAmplitude.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setVPAmplitude(t.getNewValue()));
 
     // // Adding ability to Edit row - Type
-    trainingType.setCellValueFactory(new PropertyValueFactory<TrainingLayerFeatures, Integer>("type"));
+    trainingType.setCellValueFactory(new PropertyValueFactory<>("type"));
     trainingType.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    trainingType.setOnEditCommit(t ->
-      ((TrainingLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    trainingType.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setType(t.getNewValue()));
 
     trainingLayersTable.setItems(trainingLayersFeatures);
 
     // Real Data Table
     // Adding ability to Edit row - Number
-    realNumbers.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Integer>("number"));
+    realNumbers.setCellValueFactory(new PropertyValueFactory<>("number"));
     realNumbers.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    realNumbers.setOnEditCommit(t ->
-      ((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    realNumbers.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setNumber(t.getNewValue()));
     
     // Adding ability to Edit row - Sponginess
-    realSponginess.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("sponginess"));
+    realSponginess.setCellValueFactory(new PropertyValueFactory<>("sponginess"));
     realSponginess.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    realSponginess.setOnEditCommit(t ->
-      ((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    realSponginess.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setSponginess(t.getNewValue()));
 
     // Adding ability to Edit row - Amount of clay
-    realAmountOfClay.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfClay"));
+    realAmountOfClay.setCellValueFactory(new PropertyValueFactory<>("amountOfClay"));
     realAmountOfClay.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    realAmountOfClay.setOnEditCommit(t -> 
-      ((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    realAmountOfClay.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setAmountOfClay(t.getNewValue()));
     
     // Adding ability to Edit row - Amount of carbonate
-    realAmountOfCarbonate
-        .setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("amountOfCarbonate"));
+    realAmountOfCarbonate.setCellValueFactory(new PropertyValueFactory<>("amountOfCarbonate"));
     realAmountOfCarbonate.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    realAmountOfCarbonate.setOnEditCommit(t ->
-      ((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    realAmountOfCarbonate.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setAmountOfCarbonate(t.getNewValue()));
 
     // Adding ability to Edit row - VP Amplitude
-    realVPAmplitude.setCellValueFactory(new PropertyValueFactory<RealLayerFeatures, Double>("vPAmplitude"));
+    realVPAmplitude.setCellValueFactory(new PropertyValueFactory<>("vPAmplitude"));
     realVPAmplitude.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-    realVPAmplitude.setOnEditCommit(t ->
-      ((RealLayerFeatures) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+    realVPAmplitude.setOnEditCommit(t -> t.getTableView()
+          .getItems().get(t.getTablePosition().getRow())
           .setVPAmplitude(t.getNewValue()));
 
     realLayersTable.setItems(realLayersFeatures);
 
-    // Adding neural nets to combobox
+    // Adding neural nets to combo-box
     neuralNetworkType.getItems().addAll("Back Propagation", "Resilient Propagation");
     neuralNetworkType.setValue("Back Propagation");
   }
@@ -472,13 +462,12 @@ public class AppController {
       inputs[i][3] = item.getVPAmplitude();
     }
 
-    double[] results = new double[inputs.length];
-    results = net.solve(inputs);
-    
+    double[] results = net.solve(inputs);
     resultText.appendText("\nResults:\n");
+
     for (int i = 0; i < results.length; i++) {
       resultText.appendText("\n Object [" + (i+1) + "] = ");
-      if (results[i] < .65)
+      if (results[i] < 0.65)
         resultText.appendText("Tire");
       else 
         resultText.appendText("Collector");
@@ -516,8 +505,7 @@ public class AppController {
     fileChooser.setInitialFileName("training-data.csv");
     File file = fileChooser.showSaveDialog(mainApp.getStage());
 
-    if (file == null)
-      return;
+    if (file == null) return;
 
     resultText.appendText("\nSaving training data to : " + file.getAbsolutePath() + "\n");
 
@@ -634,7 +622,7 @@ public class AppController {
   /**
    * Shortcuts Menu Item Event Handler
    */
-  @FXML public void hotkeys() {
+  @FXML public void hotKeys() {
     final Stage shortcuts = new Stage();
     shortcuts.initModality(Modality.APPLICATION_MODAL);
     shortcuts.initOwner(mainApp.getStage());
@@ -644,9 +632,10 @@ public class AppController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
     Scene scene = new Scene(box);
     scene.getStylesheets().add(App.class.getResource("resources/style.css").toExternalForm());
-    
+
     shortcuts.setTitle("Shortcuts");
     shortcuts.setScene(scene);
     shortcuts.show();

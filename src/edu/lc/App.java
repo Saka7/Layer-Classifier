@@ -27,7 +27,7 @@ public class App extends Application {
     try {
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(getClass().getResource("resources/main-layout.fxml"));
-      rootPane = (VBox) loader.load();
+      rootPane = loader.load();
 
       AppController controller = loader.getController();
       controller.setMain(this);

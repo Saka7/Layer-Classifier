@@ -2,7 +2,7 @@ package edu.lc.beans;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
-/** Table Training Data*/
+/** Training Data Table */
 public class TrainingLayerFeatures extends RealLayerFeatures {
 
   protected final SimpleIntegerProperty type;
@@ -11,8 +11,8 @@ public class TrainingLayerFeatures extends RealLayerFeatures {
     this(0, 0.0, 0.0, 0.0, 0.0, 0);
   }
 
-  public TrainingLayerFeatures(int number, double sponginess, double amountOfClay, double amountOfCarbonate,
-      double vPAmplitude, int type) {
+  public TrainingLayerFeatures(int number, double sponginess, double amountOfClay,
+      double amountOfCarbonate, double vPAmplitude, int type) {
     super(number, sponginess, amountOfCarbonate, amountOfClay, vPAmplitude);
     this.type = new SimpleIntegerProperty(type);
   }
@@ -31,7 +31,8 @@ public class TrainingLayerFeatures extends RealLayerFeatures {
 
   @Override
   public String toString() {
-    return String.format("%d,%f,%f,%f,%f,%d\n", super.getNumber(), super.getSponginess(), super.getAmountOfClay(),
+    return String.format("%d,%f,%f,%f,%f,%d\n",
+        super.getNumber(), super.getSponginess(), super.getAmountOfClay(),
         super.getAmountOfCarbonate(), super.getVPAmplitude(), getType());
   }
 }
