@@ -11,7 +11,6 @@ import edu.lc.utils.CSVDispatcher;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -41,14 +40,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-/** Main Controller, which handle user Interactions*/
+/** Main Controller, which handle user Interactions */
 public class AppController {
 
-  @FXML private Button trainButton;
-  @FXML private Button generateButton;
-  @FXML private Button solveButton;
-  @FXML private TextArea resultText;
-  @FXML private ComboBox<String> neuralNetworkType;
+  @FXML
+  private TextArea resultText;
+
+  @FXML
+  private ComboBox<String> neuralNetworkType;
 
   @FXML
   private TableView<TrainingLayerFeatures> trainingLayersTable;
@@ -120,14 +119,16 @@ public class AppController {
     });
 
     // Deleting row from table
-    trainingLayersTable.setOnKeyPressed((Event event) -> {
-      if (((KeyEvent) event).getCode() == KeyCode.BACK_SPACE)
+    trainingLayersTable.setOnKeyPressed((KeyEvent event) -> {
+      if (event.getCode() == KeyCode.BACK_SPACE && trainingLayersFeatures.size() > 0) {
         trainingLayersFeatures.remove(trainingLayersTable.getSelectionModel().getSelectedIndex());
+      }
     });
 
-    realLayersTable.setOnKeyPressed((Event event) -> {
-      if (((KeyEvent) event).getCode() == KeyCode.BACK_SPACE)
+    realLayersTable.setOnKeyPressed((KeyEvent event) -> {
+      if (event.getCode() == KeyCode.BACK_SPACE && realLayersFeatures.size() > 0) {
         realLayersFeatures.remove(realLayersTable.getSelectionModel().getSelectedIndex());
+      }
     });
 
     // Training Data table 
@@ -218,14 +219,6 @@ public class AppController {
     neuralNetworkType.setValue("Back Propagation");
   }
 
-  // Table Initialization
-  private void initTables() {
-    CSVDispatcher.filename = "data_samples/training.csv";
-    CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
-    CSVDispatcher.filename = "data_samples/tests.csv";
-    CSVDispatcher.CSVFile2RList(realLayersFeatures);
-  }
-
   /** 
    * Main Class Initialization
    * @param mainApp
@@ -234,9 +227,7 @@ public class AppController {
     this.mainApp = mainApp;
   }
 
-  /**
-   * Train Button Event Handler
-   */
+  /** Train Button Event Handler */
   @FXML public void train() {
     resultText.appendText(neuralNetworkType.getValue() + " : Training...\n");
     
@@ -396,9 +387,7 @@ public class AppController {
     });
   }
 
-  /** 
-   * Generate button event handler
-   */
+  /** Generate button event handler */
   @FXML public void generate() {
     // Artificial Value Generation pop-up menu
     final Stage options = new Stage();
@@ -435,7 +424,7 @@ public class AppController {
     options.setTitle("Artificial Value Generation");
     options.setScene(optionScene);
     options.show();
-    resultText.appendText("Generation...\n");
+    resultText.appendText("Artificial values have been generated\n");
 
     // Artificial Value Generation Event Handler
     ok.setOnAction(e -> {
@@ -453,9 +442,7 @@ public class AppController {
     });
   }
 
-  /**
-   * Solve Button event handler
-   */
+  /** Solve Button event handler */
   @FXML public void solve() {
     resultText.appendText("\nSolving\n");
     int size = realLayersFeatures.size();
@@ -481,133 +468,100 @@ public class AppController {
     }
   }
 
-  // File Menu
-  /** 
-   * New Training Data Button Event Handler 
-  */
+  /** New Training Data Button Event Handler */
   @FXML public void newTrainingData() {
     trainingLayersTable.getItems().clear();
     resultText.appendText("\nTraining Data Clearing...\n");
   }
 
-  /**
-   * Load Training Data Button Event Handler 
-   */
+  /** Load Training Data Button Event Handler */
   @FXML public void loadTrainingData() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialFileName("training-data.csv");
-    File file = fileChooser.showOpenDialog(mainApp.getStage());
-    if (file == null) return;
-    resultText.appendText("\nloading training data from : " + file.getAbsolutePath() + "\n");
-    CSVDispatcher.filename = file.getAbsolutePath();
-    trainingLayersFeatures.clear();
-    CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
+    File file = openLoadFromFileDialog("training-data.csv");
+    if (file != null) {
+        resultText.appendText("\nloading training data from : " + file.getAbsolutePath() + "\n");
+        CSVDispatcher.filename = file.getAbsolutePath();
+        trainingLayersFeatures.clear();
+        CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
+    }
   }
 
-  /**
-   * Save Training Data Button Event Handler  
-   */
+  /** Save Training Data Button Event Handler */
   @FXML public void saveTrainingData() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialFileName("training-data.csv");
-    File file = fileChooser.showSaveDialog(mainApp.getStage());
-
-    if (file == null) return;
-
-    resultText.appendText("\nSaving training data to : " + file.getAbsolutePath() + "\n");
-
-    CSVDispatcher.filename = file.getAbsolutePath();
-    CSVDispatcher.list2CSVFile(trainingLayersFeatures);
+    File file = openSaveToFileDialog("training-data.csv");
+    if (file != null) {
+        resultText.appendText("\nSaving training data to : " + file.getAbsolutePath() + "\n");
+        CSVDispatcher.filename = file.getAbsolutePath();
+        CSVDispatcher.list2CSVFile(trainingLayersFeatures);
+    }
   }
 
-  /**
-   * New Data Button Event Handler
-   */
+  /** New Data Button Event Handler */
   @FXML public void newData() {
     realLayersTable.getItems().clear();
     resultText.appendText("\nTraining data clearing...\n");
   }
 
-  /**
-   * Load Data Button Event Handler
-   */
+  /** Load Data Button Event Handler */
   @FXML public void loadData() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialFileName("data.csv");
-    File file = fileChooser.showOpenDialog(mainApp.getStage());
-    if (file == null) return;
-    resultText.appendText("\nLoading data from : " + file.getAbsolutePath() + "\n");
-    CSVDispatcher.filename = file.getAbsolutePath();
-    realLayersFeatures.clear();
-    CSVDispatcher.CSVFile2RList(realLayersFeatures);
+    File file = openLoadFromFileDialog("data.csv");
+    if (file != null) {
+        resultText.appendText("\nLoading data from : " + file.getAbsolutePath() + "\n");
+        CSVDispatcher.filename = file.getAbsolutePath();
+        realLayersFeatures.clear();
+        CSVDispatcher.CSVFile2RList(realLayersFeatures);
+    }
   }
 
-  /**
-   * Save Data Button Event Handler 
-   */
+  /** Save Data Button Event Handler */
   @FXML public void saveData() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialFileName("data.csv");
-    File file = fileChooser.showSaveDialog(mainApp.getStage());
-    if (file == null) return;
-    resultText.appendText("\nSaving Data to : " + file.getAbsolutePath() + "\n");
-    CSVDispatcher.filename = file.getAbsolutePath();
-    CSVDispatcher.list2CSVFile(realLayersFeatures);
+    File file = openSaveToFileDialog("data.csv");
+    if (file != null) {
+        resultText.appendText("\nSaving Data to : " + file.getAbsolutePath() + "\n");
+        CSVDispatcher.filename = file.getAbsolutePath();
+        CSVDispatcher.list2CSVFile(realLayersFeatures);
+    }
   }
 
-  /**
-   * New Weights Button Event Handler
-   */
+  /** New Weights Button Event Handler */
   @FXML public void newWeights() {
-    if (net instanceof BackPropagationNeuralNet)
+    if (net.getClass().equals(BackPropagationNeuralNet.class)) {
       net = new BackPropagationNeuralNet();
-    else if (net instanceof ResilientPropagationNeuralNet)
+    }
+    else if (net.getClass().equals(ResilientPropagationNeuralNet.class)) {
       net = new ResilientPropagationNeuralNet();
+    }
     resultText.appendText("\nWeights clearing for  " + net.getClass().getSimpleName() + " \n");
   }
 
-  /**
-   * Load Weights Button Event Handler
-   */
+  /** Load Weights Button Event Handler */
   @FXML public void loadWeights() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialFileName("weights.eg");
-    File file = fileChooser.showOpenDialog(mainApp.getStage());
-    if (file == null) return;
-    net.loadWeights(file.getAbsolutePath());
-    resultText.appendText("\nLoading Data from: " + file.getAbsolutePath() + "\n");
+    File file = openLoadFromFileDialog("weights.eg");
+    if (file != null) {
+        net.loadWeights(file.getAbsolutePath());
+        resultText.appendText("\nLoading Data from: " + file.getAbsolutePath() + "\n");
+    }
   }
 
-  /**
-   * Save Weights Button Event Handler
-   */
+  /** Save Weights Button Event Handler */
   @FXML public void saveWeights() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialFileName("weights.eg");
-    File file = fileChooser.showSaveDialog(mainApp.getStage());
-    if (file == null) return;
-    net.saveWeights(file.getAbsolutePath());
-    resultText.appendText("\nSaving weights to : " + file.getAbsolutePath() + "\n");
+    File file = openSaveToFileDialog("weights.eg");
+    if (file != null) {
+        net.saveWeights(file.getAbsolutePath());
+        resultText.appendText("\nSaving weights to : " + file.getAbsolutePath() + "\n");
+    }
   }
 
-  /**
-   * Exit Button Event Handler
-   */
+  /** Exit Button Event Handler */
   @FXML public void exit() {
     Platform.exit();
   }
 
-  /**
-   * Clear Results Button Event Handler
-   */
+  /** Clear Results Button Event Handler */
   @FXML public void clearResults() {
     resultText.clear();
   }
 
-  // Help Menu
-  /**
-   * About Menu Item Event Handler
-   */
+  /** About Menu Item Event Handler */
   @FXML public void about() {
     final Stage about = new Stage();
     about.initModality(Modality.APPLICATION_MODAL);
@@ -626,9 +580,7 @@ public class AppController {
     about.show();
   }
 
-  /**
-   * Shortcuts Menu Item Event Handler
-   */
+  /** Shortcuts Menu Item Event Handler */
   @FXML public void hotKeys() {
     final Stage shortcuts = new Stage();
     shortcuts.initModality(Modality.APPLICATION_MODAL);
@@ -647,4 +599,25 @@ public class AppController {
     shortcuts.setScene(scene);
     shortcuts.show();
   }
+
+  // Table Initialization
+  private void initTables() {
+    CSVDispatcher.filename = "data_samples/training.csv";
+    CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
+    CSVDispatcher.filename = "data_samples/tests.csv";
+    CSVDispatcher.CSVFile2RList(realLayersFeatures);
+  }
+
+  private File openLoadFromFileDialog(String initialFileName) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setInitialFileName(initialFileName);
+    return fileChooser.showOpenDialog(mainApp.getStage());
+  }
+
+  private File openSaveToFileDialog(String initialFileName) {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setInitialFileName(initialFileName);
+    return fileChooser.showSaveDialog(mainApp.getStage());
+  }
+
 }

@@ -1,9 +1,5 @@
 package edu.lc.neuralNets;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.mathutil.randomize.ConsistentRandomizer;
@@ -15,6 +11,10 @@ import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.back.Backpropagation;
 import org.encog.persist.EncogDirectoryPersistence;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /** BackPropagation Neural Net Learning Algorithm */
 public class BackPropagationNeuralNet implements NeuralNet {
@@ -71,13 +71,12 @@ public class BackPropagationNeuralNet implements NeuralNet {
     train.fixFlatSpot(false);
     int epoch = 0;
     do {
-      iterations.add(new Integer(epoch));
+      iterations.add(epoch);
       train.iteration();
-      errors.add(new Double(train.getError()));
-      System.out.println("Epoch #" + epoch + " Error:" + train.getError());
+      errors.add(train.getError());
       if (epoch++ > maxIterations) break;
     } while (train.getError() > maxError/100);
-    return new String(epoch + " " + train.getError());
+    return epoch + " " + train.getError();
   }
 
   @Override /** {@inheritDoc} */

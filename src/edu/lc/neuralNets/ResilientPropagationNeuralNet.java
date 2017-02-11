@@ -1,7 +1,5 @@
 package edu.lc.neuralNets;
 
-import java.util.ArrayList;
-
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
 import org.encog.mathutil.randomize.ConsistentRandomizer;
@@ -11,6 +9,8 @@ import org.encog.ml.data.basic.BasicMLDataSet;
 import org.encog.neural.networks.BasicNetwork;
 import org.encog.neural.networks.layers.BasicLayer;
 import org.encog.neural.networks.training.propagation.resilient.ResilientPropagation;
+
+import java.util.ArrayList;
 
 /** Resilient Propagation Neural Network learning algorithm */
 public class ResilientPropagationNeuralNet extends BackPropagationNeuralNet implements NeuralNet {
@@ -40,8 +40,8 @@ public class ResilientPropagationNeuralNet extends BackPropagationNeuralNet impl
   }
 
   /** {@inheritDoc} */
-  public String train(final double[][] inputs, final double[][] expected, double learningRate, double maxError,
-      long maxIterations) {
+  public String train(final double[][] inputs, final double[][] expected,
+      double learningRate, double maxError, long maxIterations) {
 
     this.learningRate = learningRate;
     trainingSet = new BasicMLDataSet(inputs, expected);
@@ -49,14 +49,13 @@ public class ResilientPropagationNeuralNet extends BackPropagationNeuralNet impl
     train.fixFlatSpot(false);
     int epoch = 0;
     do {
-      iterations.add(new Integer(epoch));
+      iterations.add(epoch);
       train.iteration();
-      errors.add(new Double(train.getError()));
-      System.out.println("Epoch #" + epoch + " Error:" + train.getError());
+      errors.add(train.getError());
       if (epoch++ > maxIterations)
         break;
     } while (train.getError() > maxError);
-    return new String(epoch + " " + train.getError());
+    return epoch + " " + train.getError();
   }
 
   /** {@inheritDoc} */
