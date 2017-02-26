@@ -1,4 +1,4 @@
-package edu.lc.beans;
+package edu.lc.entity;
 
 import javafx.beans.property.SimpleIntegerProperty;
 

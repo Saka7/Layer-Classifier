@@ -1,21 +1,15 @@
-package edu.lc.utils;
+package edu.lc.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
-import edu.lc.beans.RealLayerFeatures;
-import edu.lc.beans.TrainingLayerFeatures;
+import edu.lc.entity.RealLayerFeatures;
+import edu.lc.entity.TrainingLayerFeatures;
 import javafx.collections.ObservableList;
 
+import java.io.*;
+
 /** 
- * Observable Lists to CSV parser
+ * Parses Observable Lists to CSV
  */
-public class CSVDispatcher {
+public class CSVParser {
   public static String filename;
 
   /** 

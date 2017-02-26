@@ -1,4 +1,4 @@
-package edu.lc.utils;
+package edu.lc.util;
 
 import java.util.Random;
 

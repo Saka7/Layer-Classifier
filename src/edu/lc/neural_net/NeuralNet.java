@@ -1,4 +1,4 @@
-package edu.lc.neuralNets;
+package edu.lc.neural_net;
 
 import java.util.List;
 

@@ -1,13 +1,13 @@
 package edu.lc.controller;
 
 import edu.lc.App;
-import edu.lc.beans.RealLayerFeatures;
-import edu.lc.beans.TrainingLayerFeatures;
-import edu.lc.neuralNets.BackPropagationNeuralNet;
-import edu.lc.neuralNets.NeuralNet;
-import edu.lc.neuralNets.ResilientPropagationNeuralNet;
-import edu.lc.utils.ArtificialValueGenerator;
-import edu.lc.utils.CSVDispatcher;
+import edu.lc.entity.RealLayerFeatures;
+import edu.lc.entity.TrainingLayerFeatures;
+import edu.lc.neural_net.BackPropagationNeuralNet;
+import edu.lc.neural_net.NeuralNet;
+import edu.lc.neural_net.ResilientPropagationNeuralNet;
+import edu.lc.util.ArtificialValueGenerator;
+import edu.lc.util.CSVParser;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -479,9 +479,9 @@ public class AppController {
     File file = openLoadFromFileDialog("training-data.csv");
     if (file != null) {
         resultText.appendText("\nloading training data from : " + file.getAbsolutePath() + "\n");
-        CSVDispatcher.filename = file.getAbsolutePath();
+        CSVParser.filename = file.getAbsolutePath();
         trainingLayersFeatures.clear();
-        CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
+        CSVParser.CSVFile2TList(trainingLayersFeatures);
     }
   }
 
@@ -490,8 +490,8 @@ public class AppController {
     File file = openSaveToFileDialog("training-data.csv");
     if (file != null) {
         resultText.appendText("\nSaving training data to : " + file.getAbsolutePath() + "\n");
-        CSVDispatcher.filename = file.getAbsolutePath();
-        CSVDispatcher.list2CSVFile(trainingLayersFeatures);
+        CSVParser.filename = file.getAbsolutePath();
+        CSVParser.list2CSVFile(trainingLayersFeatures);
     }
   }
 
@@ -506,9 +506,9 @@ public class AppController {
     File file = openLoadFromFileDialog("data.csv");
     if (file != null) {
         resultText.appendText("\nLoading data from : " + file.getAbsolutePath() + "\n");
-        CSVDispatcher.filename = file.getAbsolutePath();
+        CSVParser.filename = file.getAbsolutePath();
         realLayersFeatures.clear();
-        CSVDispatcher.CSVFile2RList(realLayersFeatures);
+        CSVParser.CSVFile2RList(realLayersFeatures);
     }
   }
 
@@ -517,8 +517,8 @@ public class AppController {
     File file = openSaveToFileDialog("data.csv");
     if (file != null) {
         resultText.appendText("\nSaving Data to : " + file.getAbsolutePath() + "\n");
-        CSVDispatcher.filename = file.getAbsolutePath();
-        CSVDispatcher.list2CSVFile(realLayersFeatures);
+        CSVParser.filename = file.getAbsolutePath();
+        CSVParser.list2CSVFile(realLayersFeatures);
     }
   }
 
@@ -602,10 +602,10 @@ public class AppController {
 
   // Table Initialization
   private void initTables() {
-    CSVDispatcher.filename = "data_samples/training.csv";
-    CSVDispatcher.CSVFile2TList(trainingLayersFeatures);
-    CSVDispatcher.filename = "data_samples/tests.csv";
-    CSVDispatcher.CSVFile2RList(realLayersFeatures);
+    CSVParser.filename = "data_samples/training.csv";
+    CSVParser.CSVFile2TList(trainingLayersFeatures);
+    CSVParser.filename = "data_samples/tests.csv";
+    CSVParser.CSVFile2RList(realLayersFeatures);
   }
 
   private File openLoadFromFileDialog(String initialFileName) {

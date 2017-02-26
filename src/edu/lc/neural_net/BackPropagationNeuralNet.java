@@ -1,4 +1,4 @@
-package edu.lc.neuralNets;
+package edu.lc.neural_net;
 
 import org.encog.Encog;
 import org.encog.engine.network.activation.ActivationSigmoid;
