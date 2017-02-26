@@ -39,6 +39,7 @@ import javafx.util.converter.NumberStringConverter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Stream;
 
 /** Main Controller, which handle user Interactions */
 public class AppController {
@@ -229,7 +230,7 @@ public class AppController {
 
   /** Train Button Event Handler */
   @FXML public void train() {
-    resultText.appendText(neuralNetworkType.getValue() + " : Training...\n");
+    resultText.appendText(String.format("[%s] : Training...\n", neuralNetworkType.getValue()));
     
     // Popup menu of neural net training options
     final Stage options = new Stage();
@@ -333,23 +334,26 @@ public class AppController {
       
       String results = net.train(inputs, expected, learningRate.getValue(), maxError.getValue(),
           Math.round(maxIterations.getValue()));
-      
-      resultText.appendText("\n\n" + networkType 
-          + " : training has been successfully completed:\n");
-      resultText.appendText("error = " + results.split(" ")[1]);
-      resultText.appendText("\non" + results.split(" ")[0] + " iteration\n\n");
 
-      String[] sweights = net.getWeights().split(",");
-      double[] weights = new double[sweights.length];
+      String[] resultValues = results.split(" ");
+      resultText.appendText(String.format("\n[%s] training has been successfully completed:\n", networkType));
+      resultText.appendText(String.format("error = %.4f", Double.parseDouble(resultValues[1])));
+      resultText.appendText(String.format(" iteration = %s\n", resultValues[0]));
 
-      resultText.appendText("with weights:\n\n");
+      double[] weights = Stream.of(net.getWeights().split(","))
+              .mapToDouble(Double::parseDouble)
+              .toArray();
+
+      resultText.appendText("\nwith weights:\n");
+
       for (int i = 0; i < weights.length; i++) {
-        weights[i] = Double.parseDouble(sweights[i]);
         resultText.appendText(String.format("%.4f", weights[i]));
-        if ((i + 1) % 4 == 0)
+        if ((i + 1) % 4 == 0) {
           resultText.appendText("\n");
-        else
+        }
+        else if(i < weights.length - 1) {
           resultText.appendText(",\t");
+        }
       }
 
       options.close();
@@ -375,16 +379,14 @@ public class AppController {
       series.setName("Error");
 
       for (int i = 0; i < iterations.size(); i++) {
-        series.getData().add(new XYChart.Data(iterations.get(i), errors.get(i)));
+        series.getData().add(new XYChart.Data<>(iterations.get(i), errors.get(i)));
       }
 
       Scene scene = new Scene(lineChart, 800, 600);
       lineChart.getData().add(series);
 
       chartStage.setScene(scene);
-      chartStage.show();
-
-    });
+      chartStage.show();    });
   }
 
   /** Generate button event handler */
@@ -424,7 +426,7 @@ public class AppController {
     options.setTitle("Artificial Value Generation");
     options.setScene(optionScene);
     options.show();
-    resultText.appendText("Artificial values have been generated\n");
+    resultText.appendText("\nArtificial values have been generated\n");
 
     // Artificial Value Generation Event Handler
     ok.setOnAction(e -> {
@@ -444,7 +446,7 @@ public class AppController {
 
   /** Solve Button event handler */
   @FXML public void solve() {
-    resultText.appendText("\nSolving\n");
+    resultText.appendText("\nSolving...\n");
     int size = realLayersFeatures.size();
     double[][] inputs = new double[size][4];
 
@@ -457,14 +459,15 @@ public class AppController {
     }
 
     double[] results = net.solve(inputs);
-    resultText.appendText("\nResults:\n");
+    resultText.appendText("\nResults:");
 
     for (int i = 0; i < results.length; i++) {
       resultText.appendText("\n Object [" + (i+1) + "] = ");
-      if (results[i] < 0.65)
+      if (results[i] < 0.65) {
         resultText.appendText("Tire");
-      else 
+      } else  {
         resultText.appendText("Collector");
+      }
     }
   }
 
@@ -478,7 +481,7 @@ public class AppController {
   @FXML public void loadTrainingData() {
     File file = openLoadFromFileDialog("training-data.csv");
     if (file != null) {
-        resultText.appendText("\nloading training data from : " + file.getAbsolutePath() + "\n");
+        resultText.appendText("\nLoading training data from : " + file.getAbsolutePath() + "\n");
         CSVParser.filename = file.getAbsolutePath();
         trainingLayersFeatures.clear();
         CSVParser.CSVFile2TList(trainingLayersFeatures);
@@ -530,7 +533,7 @@ public class AppController {
     else if (net.getClass().equals(ResilientPropagationNeuralNet.class)) {
       net = new ResilientPropagationNeuralNet();
     }
-    resultText.appendText("\nWeights clearing for  " + net.getClass().getSimpleName() + " \n");
+    resultText.appendText("\nWeights clearing for " + net.getClass().getSimpleName() + " \n");
   }
 
   /** Load Weights Button Event Handler */
