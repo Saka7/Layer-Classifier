@@ -1,3 +1,7 @@
+[![Code Climate](https://codeclimate.com/github/Saka7/Layer-Classifier/badges/gpa.svg)](https://codeclimate.com/github/Saka7/Layer-Classifier)
+[![Issue Count](https://codeclimate.com/github/Saka7/Layer-Classifier/badges/issue_count.svg)](https://codeclimate.com/github/Saka7/Layer-Classifier)
+
+
 ![Layer-Classifier Logo](src/edu/lc/resources/logo.png)
 # Layer-Classifier
 ------
